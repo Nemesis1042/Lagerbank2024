@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutzer bearbeiten</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script>
+        function confirmDelete() {
+            return confirm('Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1 class="topic">Benutzer bearbeiten</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Startseite</a></li>
+                <li><a href="/add_buy">Kauf hinzufügen</a></li>
+                <li><a href="/watch">Übersicht</a></li>
+                <li><a href="#" onclick="history.back();">Zurück</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div>
+            <form method="post" action="{{ url_for('edit_user') }}">
+                <label for="selected_user">Aktueller Teilnehmername:</label>
+                <select id="selected_user" name="selected_user">
+                    {% for user in users %}
+                    <option value="{{ user }}">{{ user }}</option>
+                    {% endfor %}
+                </select><br>
+                <label for="new_name">Neuer Teilnehmername:</label>
+                <input type="text" id="new_name" name="new_name" placeholder="Neuer Teilnehmername"><br>
+                <label for="new_barcode">Neuer Teilnehmerbarcode:</label>
+                <input type="text" id="new_barcode" name="new_barcode" placeholder="Neuer Teilnehmerbarcode"><br>
+                <button class="bt" type="submit" name="action" value="update">Aktualisiere Name</button>
+                <button class="bt" type="submit" name="action" value="update_b">Aktualisiere Barcode</button>
+                <button class="bt" type="submit" name="action" value="delete" onclick="return confirmDelete();">Benutzer löschen</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
