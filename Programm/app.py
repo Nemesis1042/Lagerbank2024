@@ -88,7 +88,7 @@ def submit_purchase(user, products, quantity = 1):
             
             new_Kontostand = Kontostand - total_price
             new_Kontostand = round(new_Kontostand, 2)
-            
+            print(new_Kontostand)
             # Transaktion einfügen
             cursor.execute("INSERT INTO Transaktion (K_ID, P_ID, Typ, Menge, Datum) VALUES ((SELECT K_ID FROM Konto WHERE T_ID = ?), ?, ?, ?, ?)",
                         (T_ID, P_ID, 'Kauf', quantity, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
