@@ -1,10 +1,30 @@
 #!/usr/bin/python3
 import sqlite3
+import os
 
 
 datenbankname = "Lagerbank2024.db"
 
 def create_database(datenbankname):
+    # Ensure the directory exists
+    directory = os.path.dirname(datenbankname)
+    if not os.path.exists(directory):
+        print(f"Creating directory: {directory}")
+        os.makedirs(directory)
+    
+    print(f"Database path: {datenbankname}")
+    
+    # Connect to the database (create if it does not exist)
+    try:
+        connection = sqlite3.connect(datenbankname)
+        cursor = connection.cursor()
+        # Create tables or do other database setup here
+        cursor.execute("CREATE TABLE IF NOT EXISTS example (id INTEGER PRIMARY KEY, data TEXT)")
+        connection.close()
+    except sqlite3.OperationalError as e:
+        print(f"Error: {e}")
+        raise
+
     # Verbindung zur Datenbank herstellen
     connection = sqlite3.connect(datenbankname)
     cursor = connection.cursor()
@@ -135,5 +155,9 @@ def create_database(datenbankname):
     connection.close()
     print(f'Datenbank "{datenbankname}" wurde erfolgreich erstellt!')
 
-create_database(datenbankname)
-
+if __name__ == "__main__":
+    # Determine the directory of the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    datenbankname = os.path.join(script_dir, "Lagerbank2024.db")
+    
+    create_database(datenbankname)
