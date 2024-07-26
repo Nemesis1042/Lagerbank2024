@@ -1,5 +1,8 @@
+<!--Filename = settings.html-->
+
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/styles.css">
 </head>
+
 <body>
     <header>
         <h2 class="topic">Einstellungen</h2>
@@ -50,17 +54,17 @@
         </div>
     </main>
     <script>
-        document.getElementById('date_form').addEventListener('submit', function(event) {
+        document.getElementById('date_form').addEventListener('submit', function (event) {
             var firstDayInput = document.getElementById('first_day').value;
             var lastDayInput = document.getElementById('last_day').value;
             var lagernameInput = document.getElementById('lagername').value;
-        
+
             if (firstDayInput) {
                 var firstDayParts = firstDayInput.split('-');
                 var formattedFirstDay = firstDayParts[2] + '-' + firstDayParts[1] + '-' + firstDayParts[0];
                 document.getElementById('formatted_first_day').value = formattedFirstDay;
             }
-        
+
             if (lastDayInput) {
                 var lastDayParts = lastDayInput.split('-');
                 var formattedLastDay = lastDayParts[2] + '-' + lastDayParts[1] + '-' + lastDayParts[0];
@@ -72,4 +76,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

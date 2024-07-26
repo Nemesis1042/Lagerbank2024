@@ -1,6 +1,8 @@
+<!--Filename = backup.html-->
 
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
     <link rel=stylesheet href="/static/styles.css">
 </head>
+
 <body>
     <header>
         <h1 class="topic">Datenbank-Backup</h1>
@@ -22,27 +25,28 @@
     </header>
     <main>
         <div class="container">
-                <form method="POST">
-                    <label for="backup_directory">Backup-Verzeichnis:</label>
-                    <label for="att_backupdir"> {{ backup_directory }} </label>
-                    <br>
-                    <br>
+            <form method="POST">
+                <label for="backup_directory">Backup-Verzeichnis:</label>
+                <label for="att_backupdir"> {{ backup_directory }} </label>
+                <br>
+                <br>
 
-                    <label for="backup_filename">Backup-Verzeichnis ändern:</label>
-                    <input type="text" id="backup_directory" name="backup_directory" value="">
+                <label for="backup_filename">Backup-Verzeichnis ändern:</label>
+                <input type="text" id="backup_directory" name="backup_directory" value="">
 
-                    <button class="bt" type="submit">Backup-Verzeichnis ändern</button>
-                    <br>
-                    <br>
-                    <label for="backup_filename">Backup-Dateiname:</label>
-                    <label for="att_backupfile"> {{ backup_filename }} </label>
-                    <br>
-                    <br>
-                    <button  class="bt" type="submit">Backup erstellen</button>
+                <button class="bt" type="submit">Backup-Verzeichnis ändern</button>
+                <br>
+                <br>
+                <label for="backup_filename">Backup-Dateiname:</label>
+                <label for="att_backupfile"> {{ backup_filename }} </label>
+                <br>
+                <br>
+                <button class="bt" type="submit">Backup erstellen</button>
 
-                    
-                </form>
+
+            </form>
         </div>
     </main>
 </body>
+
 </html>
