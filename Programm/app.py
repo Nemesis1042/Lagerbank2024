@@ -21,7 +21,7 @@ from config import Zeltlager    # Für Lager-Konfiguration
 
 # Initialisierung der Flask-App
 app = Flask(__name__)
-os.system('python3 OB_DB_erstellen.py')
+os.system('python3 DB_create.py')
 app.config.from_object('config.Config')
 
 # Funktionen
@@ -338,7 +338,7 @@ def dblogin():
 @app.route('/db_create')
 def db_create():
     print('db_create') # Debugging-Information
-    os.system('python Lagerbank_mB/Programm/OB_DB_erstellen.py')
+    os.system('python DB_create.py')
     return redirect(url_for('index'))
 
 @app.route('/teilnehmer')

@@ -4,12 +4,6 @@
     --link-color: #fff; /* Linkfarbe für dunkles Thema */
 }
 
-/* [data-theme="dark"] {
-    --text-color: #fff; /* Schriftfarbe für dunkles Thema */
-    /*--background-color: #333; /* Hintergrundfarbe für dunkles Thema */
-    /*--link-color: #fff; /* Linkfarbe für dunkles Thema */
-/*} */
-
 .topic{
     color: #f0f0f0
 }
@@ -223,11 +217,3 @@ input[type="submit"]:hover, .admin-link:hover, .highlight:hover {
 
 }
 
-/* Force dark mode */
-/*@media (prefers-color-scheme: dark) {
-    :root {
-        --text-color: #fff;
-        --background-color: #333;
-        --link-color: #fff;
-    }
-}
