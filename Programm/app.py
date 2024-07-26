@@ -95,6 +95,7 @@ def submit_purchase(user, products, quantity = 1):
             
             # Konto- und Produkt-Updates durchführen
             cursor.execute("UPDATE Konto SET Kontostand = ? WHERE T_ID = ?", (new_Kontostand, T_ID))
+            Kontostand = new_Kontostand  # Aktualisieren Sie den Kontostand für die nächste Iteration
             cursor.execute("UPDATE Produkt SET Anzahl_verkauft = Anzahl_verkauft + ? WHERE P_ID = ?", (quantity, P_ID))
             
             # Änderungen speichern
