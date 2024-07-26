@@ -1307,7 +1307,7 @@ done
 echo "All files have been created successfully!"
 
 
-#chmod +x create_html_files.sh
+# sudo chmod +x create_html_files.sh
 
 
-#./create_html_files.sh
+# sudo ./create_html_files.sh
