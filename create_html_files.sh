@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the directory where the HTML files will be created
-directory="/path/to/your/directory"
+directory="/home/lager/Lagerbank/templates"
 
 # Define the file names and their respective contents
 declare -A files
