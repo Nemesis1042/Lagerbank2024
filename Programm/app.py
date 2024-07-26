@@ -277,6 +277,12 @@ def add_buy():
     IDs = db.execute_select("SELECT T_ID FROM Teilnehmer")  # Korrekte Verwendung
     return render_template('add_buy.html', IDs=IDs)
 
+@app.route('/borrow', methods=['GET', 'POST'])
+def borrow():
+    
+    
+    
+    pass
 @app.route('/buy_check')
 def buy_check():
     username = request.args.get('username')  # Benutzername aus den URL-Parametern abrufen
@@ -730,7 +736,6 @@ def backup_database():
         return redirect(url_for('backup_database'))
     
     return render_template('backup.html', backup_directory=backup_directory)
-
 
 @app.route('/delete_database', methods=['GET', 'POST'])
 def delete_database():
