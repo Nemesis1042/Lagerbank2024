@@ -228,28 +228,39 @@ def aktualisere_endkontostand():
     finally:
         db.close()
 
-def submit_borrow():
-    def submit_borrow():
-        try:
-            db = get_db_connection()
-            # Teilnehmer-ID und Spielzeug-ID aus der Anfrage holen
-            teilnehmer_id = request.form['TN_Barcode']
-            spielzeug_id = request.form['Spielzeug_ID']
-            
-            # Überprüfen, ob das Spielzeug bereits ausgeliehen wurde
-            if db.execute("SELECT Ausgeliehen FROM Spielzeug WHERE Spielzeug_ID = ?", (spielzeug_id,)).fetchone()[0] == 1:
-                print(f"Das Spielzeug mit der ID {spielzeug_id} ist bereits ausgeliehen.")
-                return False
-            
-            # Spielzeug-Ausleihe in die Datenbank eintragen
-            db.execute("INSERT INTO Spielzeug_Ausleihe (Spielzeug_ID, T_ID, Ausleihdatum) VALUES (?, ?, CURRENT_DATE)", (spielzeug_id, teilnehmer_id))
-            db.execute("UPDATE Spielzeug SET Ausgeliehen = 1 WHERE Spielzeug_ID = ?", (spielzeug_id,))
-            db.commit()
-            print(f"Spielzeug mit der ID {spielzeug_id} wurde erfolgreich an Teilnehmer {teilnehmer_id} ausgeliehen.")
-            return True
-        except Exception as e:
-            print(f"Fehler beim Ausleihen des Spielzeugs: {e}")
+def submit_borrow(user, item):
+    print(f"Benutzer: {user}, Spielzeug: {item}")  # Debugging-Ausgabe
+    try:
+        db = get_db_connection()
+        # Teilnehmer-ID und Spielzeug-ID aus der Anfrage holen
+        TN_bacode = user
+        spielzeug_name = item
+        
+        # Überprüfen, ob das Spielzeug bereits ausgeliehen wurde
+        ausgeliehen = db.execute("SELECT Ausgeliehen FROM Spielzeug WHERE S_Barcode = ?", (spielzeug_name,)).fetchone()
+        if ausgeliehen and ausgeliehen[0] == 1:
+            flash(f"Das Spielzeug mit der ID {spielzeug_name} ist bereits ausgeliehen.", 'error')
             return False
+        
+        # Spielzeug-Ausleihe in die Datenbank eintragen
+        spielzeug_id = db.execute("SELECT Spielzeug_ID FROM Spielzeug WHERE S_Barcode = ?", (spielzeug_name,)).fetchone()
+        if not spielzeug_id:
+            flash(f"Spielzeug mit Barcode {spielzeug_name} nicht gefunden.", 'error')  # Fehler als Flash-Nachricht
+            return False
+        teilnehmer_id = db.execute("SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?", (TN_bacode,)).fetchone()
+        if not teilnehmer_id:
+            flash(f"Teilnehmer mit Barcode {TN_bacode} nicht gefunden.", 'error')  # Fehler als Flash-Nachricht
+            return False
+        
+        db.execute("INSERT INTO Spielzeug_Ausleihe (Spielzeug_ID, T_ID, Ausleihdatum) VALUES (?, ?, CURRENT_DATE)", (spielzeug_id[0], teilnehmer_id[0]))
+        db.execute("UPDATE Spielzeug SET Ausgeliehen = 1 WHERE Spielzeug_ID = ?", (spielzeug_id[0],))
+        db.commit()
+        print(f"Spielzeug mit der ID {spielzeug_name} wurde erfolgreich an Teilnehmer {teilnehmer_id[0]} ausgeliehen.")
+        return True
+    except Exception as e:
+        flash(f"Fehler beim Ausleihen des Spielzeugs: {e}", 'error')  # Fehler als Flash-Nachricht
+        return False
+
 
 def barcode_exists(db: Database, barcode: str):
     query = "SELECT 1 FROM P_Barcode WHERE Barcode = ?"
@@ -304,30 +315,55 @@ def buy_check():
 def retry_purchase():
     print('retry_purchase')
     if request.method == 'POST':
-        
         return redirect(url_for('add_buy'))
 
 @app.route('/success')
 def success():
-    print("Purchase completed successfully!")
+    flash("Purchase completed successfully!")
     return redirect(url_for("add_buy"))
-    
+
+@app.route('/success_borrow')
+def success_borrow():
+    flash("Borrow completed successfully!")
+    return redirect(url_for("index"))
+
 @app.route('/borrow', methods=['GET', 'POST'])
 def borrow():
     print('borrow')
     if request.method == 'POST':
         user = request.form['TN_Barcode']
-        item = request.form['Spielzeug']
-        print(item)
+        spielzeug = request.form['Spielzeug']
+        print(spielzeug)
+        
+        # Redirect to the confirmation page
+        return redirect(url_for('borrow_check', username=user, item=spielzeug))  # Ändern Sie 'items' zu 'item'  # Korrektur: 'items' zu 'spielzeug'
+    
+    conn = get_db_connection()
+    IDs = conn.execute("SELECT T_ID FROM Teilnehmer").fetchall()
+    conn.close()
+    return render_template('borrow.html', IDs=IDs)
+
+@app.route('/borrow_check', methods=['GET', 'POST'])
+def borrow_check():
+    if request.method == 'POST':
+        user = request.form.get('user')
+        item = request.form.get('item')
+        if item is None:
+            flash('Fehler: Item fehlt!', 'danger')
+            return redirect(url_for('borrow'))
         success = submit_borrow(user, item)
         if success:
-            print(f"{user} hat {item} ausgeliehen", 'success')
-            return redirect(url_for('borrow_check', username=user, item=item))
+            print(f"{user} hat {item} erfolgreich ausgeliehen")
+            return redirect(url_for('success_borrow'))
         else:
-            print('Fehler beim Hinzufügen des Aussleihens', 'danger')
-    db = Database()
-    IDs = db.execute_select("SELECT T_ID FROM Teilnehmer")
-    return render_template('borrow.html', IDs=IDs)
+            flash('Fehler beim Hinzufügen der Ausleihe', 'danger')
+            return redirect(url_for('borrow'))
+    else:
+        username = request.args.get('username')
+        item = request.args.get('item')
+        return render_template('borrow_check.html', username=username, item=item)
+
+
 
 @app.route('/watch')
 def watch():
@@ -379,7 +415,7 @@ def ausgeliehen():
     spielzeuge = cursor.fetchall()
     conn.close()
     
-    return render_template('watch.html', spielzeuge=spielzeuge)
+    return render_template('ausgeliehen.html', spielzeuge=spielzeuge)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

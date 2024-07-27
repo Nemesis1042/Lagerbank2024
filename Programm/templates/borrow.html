@@ -19,12 +19,17 @@
     </header>
     <main>
         <div>
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <h1>Spielzeug ausleihen</h1>
             <form action="/borrow" method="post">
-                <label for="TN_Barcode">Teilnehmerbarcode:</label>
-                <input id="TN_Barcode" name="TN_Barcode" autofocus>
-                <label for="Spielzeug_Barcode">Spielzeugbarcode:</label>
-                <input id="Spielzeug_Barcode" name="Spielzeug_Barcode">
+                <label for="TN_Barcode">Teilnehmer Barcode:</label>
+                <input type="text" id="TN_Barcode" name="TN_Barcode" required autofocus><br><br>
+                <label for="Spielzeug">Spielzeug Barcode:</label>
+                <input type="text" id="Spielzeug" name="Spielzeug" required><br><br>
                 <input type="submit" value="Spielzeug ausleihen">
             </form>
         </div>

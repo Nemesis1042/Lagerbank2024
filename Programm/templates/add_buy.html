@@ -27,6 +27,7 @@
             <ul>
                 <li><a href="/">Startseite</a></li>
                 <li><a href="/add_buy">Kauf hinzufügen</a></li>
+
                 <li><a href="#" onclick="history.back();">Zurück</a></li>
             </ul>
         </nav>
@@ -54,6 +55,11 @@
                 <input id="P_Barcode7" name="P_Barcode7" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <input type="submit" value="Kauf hinzufügen">
             </form>
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
         </div>
     </main>
     <script>

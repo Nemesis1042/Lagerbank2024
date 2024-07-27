@@ -18,17 +18,19 @@
         </nav>
     </header>
     <main>
-        <div>
-            <h1>Spielzeugausleihe bestätigen</h1>
-            <p>Bestätigung der Spielzeugausleihe.</p>
+        <form action="/borrow_check" method="post">
             <div>
-                <p>Teilnehmer: {{ username }}</p>
-                <p>Spielzeug: {{ item }}</p>
-                <p>Ausleihdatum: {{ ausleihdatum }}</p>
+                <h1>Spielzeugausleihe bestätigen</h1>
+                <p>Bestätigung der Spielzeugausleihe.</p>
+                <div>
+                    <p>Teilnehmer: {{ username }}</p>
+                    <p>Spielzeug: {{ item }}</p>
+                </div>
+                <input type="hidden" name="user" value="{{ username }}">
+                <input type="hidden" name="item" value="{{ item }}">
+                <input class="bt" type="submit" value="Ausgeliehen bestätigen">
             </div>
-        </div>
+        </form>
     </main>
 </body>
 </html>
-
-
