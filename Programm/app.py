@@ -19,10 +19,12 @@ from database import Database, get_db_connection    # Für Datenbankzugriff
 from config import db_backup    # Für Backup-Konfiguration
 from config import Zeltlager    # Für Lager-Konfiguration
 
+
 # Initialisierung der Flask-App
 app = Flask(__name__)
 os.system('python DB_create.py')
 app.config.from_object('config.Config')
+
 
 # Funktionen
 def get_users_from_db():
@@ -164,7 +166,6 @@ def create_backup(source_file, backup_directory):
         return redirect(url_for("backup"))
     except Exception as e:
         print(f"Fehler beim Erstellen des Backups: {e}")
-
 # Function to calculate the remaining balance until the end of the camp
 def genug_geld_bis_ende_von_tag(teilnehmer_id, db):
     print("Berechne erwarteten Kontostand...")
@@ -250,10 +251,10 @@ def submit_borrow():
             print(f"Fehler beim Ausleihen des Spielzeugs: {e}")
             return False
 
-
 def barcode_exists(db: Database, barcode: str):
     query = "SELECT 1 FROM P_Barcode WHERE Barcode = ?"
     return bool(db.execute_select(query, (barcode,)))
+
 
 # Routen
 @app.route('/', methods=['GET', 'POST'])
@@ -299,8 +300,6 @@ def buy_check():
         quantity = request.args.get('quantity', 1)
         return render_template('buy_check.html', username=username, products=products, quantity=quantity)
 
-
-
 @app.route('/retry_purchase', methods=['GET', 'POST'])
 def retry_purchase():
     print('retry_purchase')
@@ -313,7 +312,6 @@ def success():
     print("Purchase completed successfully!")
     return redirect(url_for("add_buy"))
     
-
 @app.route('/borrow', methods=['GET', 'POST'])
 def borrow():
     print('borrow')
@@ -382,7 +380,6 @@ def ausgeliehen():
     conn.close()
     
     return render_template('watch.html', spielzeuge=spielzeuge)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -555,7 +552,6 @@ def add_product():
         return redirect(url_for('admin'))
     return render_template('add_product.html')
 
-
 @app.route('/edit_user', methods=['GET', 'POST'])
 def edit_user():
     print('edit_user') # Debugging-Information
@@ -608,7 +604,6 @@ def edit_user():
         users = [row[0] for row in cur.fetchall()]
         conn.close()
         return render_template('edit_user.html', users=users)
-
 
 @app.route('/edit_spielzeug', methods=['GET', 'POST'])
 def edit_spielzeug():
@@ -779,7 +774,6 @@ def return_spielzeug():
         return redirect(url_for('index'))
     else:
         return render_template ("back.html")
-
 
 @app.route('/checkout_tn')
 def checkout_tn():
@@ -983,4 +977,3 @@ def settings():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
-
