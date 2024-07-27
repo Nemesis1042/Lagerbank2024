@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spielzeugausleihe bestätigen</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1 class="topic">Spielzeugausleihe bestätigen</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Startseite</a></li>
+                <li><a href="/borrow">Spielzeug ausleihen</a></li>
+                <li><a href="#" onclick="history.back();">Zurück</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div>
+            <h1>Spielzeugausleihe bestätigen</h1>
+            <p>Bestätigung der Spielzeugausleihe.</p>
+            <div>
+                <p>Teilnehmer: {{ username }}</p>
+                <p>Spielzeug: {{ item }}</p>
+                <p>Ausleihdatum: {{ ausleihdatum }}</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
+

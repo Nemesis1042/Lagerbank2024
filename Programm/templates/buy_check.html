@@ -31,7 +31,17 @@
                 <li class="li">{{ product }}</li>
                 {% endfor %}
             </ul>
-            <a href="/add_buy" class="bt">Weiteren Kauf hinzufügen</a>
+            <form action="{{ url_for('buy_check') }}" method="post">
+                <input type="hidden" name="user" value="{{ username }}">
+                {% for product in products %}
+                <input type="hidden" name="products" value="{{ product }}">
+                {% endfor %}
+                <input type="hidden" name="quantity" value="{{ quantity }}">
+                <button class="bt" type="submit">Kauf bestätigen</button>
+            </form>
+            <form action="{{ url_for('retry_purchase') }}" method="post">
+                <button class="bt" type="submit">Kauf erneut versuchen</button>
+            </form>
         </div>
     </main>
 </body>

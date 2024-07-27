@@ -2,8 +2,8 @@
 import sqlite3
 import os
 
-
 datenbankname = "Lagerbank2024.db"
+
 
 def create_database(datenbankname):
     # Ensure the directory exists
@@ -19,8 +19,14 @@ def create_database(datenbankname):
         connection = sqlite3.connect(datenbankname)
         cursor = connection.cursor()
         # Create tables or do other database setup here
-        cursor.execute("CREATE TABLE IF NOT EXISTS example (id INTEGER PRIMARY KEY, data TEXT)")
-        connection.close()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS Teilnehmer (
+        T_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+        Name VARCHAR(50),
+        TN_Barcode VARCHAR(50),
+        Checkout BOOLEAN DEFAULT 0
+        );
+        ''')
+        cursor.connection.commit()
     except sqlite3.OperationalError as e:
         print(f"Error: {e}")
         raise
@@ -40,26 +46,30 @@ def create_database(datenbankname):
     );    
     ''')
     cursor.connection.commit()
-    # Tabelle "Produkt" erstellen
-    cursor.execute('''CREATE TABLE IF NOT EXISTS Produkt (
-        P_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Beschreibung VARCHAR(100),
-        P_Produktbarcode VARCHAR(50),
-        Preis DECIMAL(10, 2),
-        Anzahl_verkauft INT
-    );
-    ''')
-    cursor.connection.commit()
-    # Tabelle "P_Barcode" erstellen
-    cursor.execute('''CREATE TABLE IF NOT EXISTS P_Barcode(
-        Barcode_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        P_ID INTEGER,
-        Barcode VARCHAR(50),
-        FOREIGN KEY (P_ID) REFERENCES Produkt(P_ID)
-    );
-    ''')
     
+    # Tabelle "Spielzeug" erstellen
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Spielzeug (
+        Spielzeug_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        Name VARCHAR(100),
+        S_Barcode VARCHAR(100),
+        "Ausgeliehen" BOOLEAN DEFAULT 0
+    );
+    ''')
     cursor.connection.commit()
+    
+    # Tabelle "Spielzeug_Ausleihe" erstellen 
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Spielzeug_Ausleihe (
+        Spielzeug_Ausleihe_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        Spielzeug_ID INT,
+        T_ID INT,
+        Ausleihdatum DATE,
+        Rückgabedatum DATE,
+        FOREIGN KEY (Spielzeug_ID) REFERENCES Spielzeug(Spielzeug_ID),
+        FOREIGN KEY (T_ID) REFERENCES Teilnehmer(T_ID)
+    );
+    ''')
+    cursor.connection.commit()
+    
     # Tabelle "Teilnehmer" erstellen
     cursor.execute('''CREATE TABLE IF NOT EXISTS Teilnehmer (
         T_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -154,6 +164,7 @@ def create_database(datenbankname):
     # Verbindung schließen
     connection.close()
     print(f'Datenbank "{datenbankname}" wurde erfolgreich erstellt!')
+
 
 if __name__ == "__main__":
     # Determine the directory of the current script

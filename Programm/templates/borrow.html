@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spielzeug ausleihen</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1 class="topic">Spielzeug ausleihen</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Startseite</a></li>
+                <li><a href="/borrow">Spielzeug ausleihen</a></li>
+                <li><a href="#" onclick="history.back();">Zurück</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div>
+            <h1>Spielzeug ausleihen</h1>
+            <form action="/borrow" method="post">
+                <label for="TN_Barcode">Teilnehmerbarcode:</label>
+                <input id="TN_Barcode" name="TN_Barcode" autofocus>
+                <label for="Spielzeug_Barcode">Spielzeugbarcode:</label>
+                <input id="Spielzeug_Barcode" name="Spielzeug_Barcode">
+                <input type="submit" value="Spielzeug ausleihen">
+            </form>
+        </div>
+    </main>
+</body>
+</html>

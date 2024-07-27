@@ -21,7 +21,7 @@ from config import Zeltlager    # Für Lager-Konfiguration
 
 # Initialisierung der Flask-App
 app = Flask(__name__)
-os.system('python3 DB_create.py')
+os.system('python DB_create.py')
 app.config.from_object('config.Config')
 
 # Funktionen
@@ -47,12 +47,11 @@ def get_db():
     print('get_db') # Debugging-Information
     return sqlite3.connect(app.config['SQLALCHEMY_DATABASE_URI'].split('///')[-1])
 
-def submit_purchase(user, products, quantity = 1):
-    print('submit_purchase') # Debugging-Information
+def submit_purchase(user, products, quantity=1):
+    print('submit_purchase')  # Debugging-Information
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        # Teilnehmer-ID und Kontostand abrufen
         cursor.execute("SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?", (user,))
         user_row = cursor.fetchone()
         if user_row is None:
@@ -65,10 +64,9 @@ def submit_purchase(user, products, quantity = 1):
         if account_row is None:
             print("Konto nicht gefunden!")
             return False
-        Kontostand = account_row['Kontostand']
-        Kontostand = round(Kontostand, 2)
-        print(products)
-        # Produktpreis und Produkt-ID abrufen
+        Kontostand = round(account_row['Kontostand'], 2)
+        print(f"Ursprünglicher Kontostand: {Kontostand}")  # Debugging-Ausgabe
+        
         for product in products:
             if product == '':  # Skip empty products
                 continue
@@ -81,7 +79,7 @@ def submit_purchase(user, products, quantity = 1):
             Preis = product_row['Preis']
             
             # Prüfen, ob genug Guthaben vorhanden ist
-            total_price = quantity * Preis
+            total_price = int(quantity) * Preis
             if total_price > Kontostand:
                 print("Nicht genügend Guthaben!")
                 return False
@@ -102,11 +100,12 @@ def submit_purchase(user, products, quantity = 1):
             conn.commit()
             print("Transaktion hinzugefügt!")
         
-        return redirect('buy_check.html')  # Rückgabe nach der Schleife
+        return True
     except Exception as e:
         print(f"Fehler beim Hinzufügen der Transaktion: {e}")
         return False
     finally:
+        cursor.close()
         conn.close()
 
 def fetch_users(db: Database) -> List[str]:
@@ -227,7 +226,31 @@ def aktualisere_endkontostand():
         print(f"Fehler beim Aktualisieren des Endkontostands: {e}")
     finally:
         db.close()
-        
+
+def submit_borrow():
+    def submit_borrow():
+        try:
+            db = get_db_connection()
+            # Teilnehmer-ID und Spielzeug-ID aus der Anfrage holen
+            teilnehmer_id = request.form['TN_Barcode']
+            spielzeug_id = request.form['Spielzeug_ID']
+            
+            # Überprüfen, ob das Spielzeug bereits ausgeliehen wurde
+            if db.execute("SELECT Ausgeliehen FROM Spielzeug WHERE Spielzeug_ID = ?", (spielzeug_id,)).fetchone()[0] == 1:
+                print(f"Das Spielzeug mit der ID {spielzeug_id} ist bereits ausgeliehen.")
+                return False
+            
+            # Spielzeug-Ausleihe in die Datenbank eintragen
+            db.execute("INSERT INTO Spielzeug_Ausleihe (Spielzeug_ID, T_ID, Ausleihdatum) VALUES (?, ?, CURRENT_DATE)", (spielzeug_id, teilnehmer_id))
+            db.execute("UPDATE Spielzeug SET Ausgeliehen = 1 WHERE Spielzeug_ID = ?", (spielzeug_id,))
+            db.commit()
+            print(f"Spielzeug mit der ID {spielzeug_id} wurde erfolgreich an Teilnehmer {teilnehmer_id} ausgeliehen.")
+            return True
+        except Exception as e:
+            print(f"Fehler beim Ausleihen des Spielzeugs: {e}")
+            return False
+
+
 def barcode_exists(db: Database, barcode: str):
     query = "SELECT 1 FROM P_Barcode WHERE Barcode = ?"
     return bool(db.execute_select(query, (barcode,)))
@@ -257,38 +280,56 @@ def update_product_dropdowns_route():
     products = fetch_products(db)  # Ruft Produktbeschreibungen ab
     return jsonify({'products': products})
 
-@app.route('/add_buy', methods=['GET', 'POST'])
-def add_buy():
-    print('add_buy')
+@app.route('/buy_check', methods=['GET', 'POST'])
+def buy_check():
     if request.method == 'POST':
-        user = request.form['TN_Barcode']
-        products = [request.form[f'P_Barcode{i}'] for i in range(1, 8) if f'P_Barcode{i}' in request.form]
-        print(products)
-        success = submit_purchase(user, products)
+        user = request.form['user']
+        products = request.form.getlist('products')
+        quantity = request.form.get('quantity', 1)
+        success = submit_purchase(user, products, quantity)
         if success:
-            aktualisere_endkontostand()
             print(f"{user} hat {products} erfolgreich gekauft", 'success')
-            return redirect(url_for('buy_check', username=user, products=products))  # Parameter hinzufügen
+            return redirect(url_for('success'))
         else:
             print('Fehler beim Hinzufügen des Kaufs', 'danger')
+            return redirect(url_for('add_buy'))
+    else:
+        username = request.args.get('username')
+        products = request.args.getlist('products')
+        quantity = request.args.get('quantity', 1)
+        return render_template('buy_check.html', username=username, products=products, quantity=quantity)
+
+
+
+@app.route('/retry_purchase', methods=['GET', 'POST'])
+def retry_purchase():
+    print('retry_purchase')
+    if request.method == 'POST':
+        
         return redirect(url_for('add_buy'))
+
+@app.route('/success')
+def success():
+    print("Purchase completed successfully!")
+    return redirect(url_for("add_buy"))
     
-    db = Database()  # Stellen Siautocomplete="off" inputmode="none" autocorrect="off" spellcheck="false"e sicher, dass db korrekt initialisiert ist
-    IDs = db.execute_select("SELECT T_ID FROM Teilnehmer")  # Korrekte Verwendung
-    return render_template('add_buy.html', IDs=IDs)
 
 @app.route('/borrow', methods=['GET', 'POST'])
 def borrow():
-    
-    
-    
-    pass
-@app.route('/buy_check')
-def buy_check():
-    username = request.args.get('username')  # Benutzername aus den URL-Parametern abrufen
-    products = request.args.getlist('products')  # Produkte aus den URL-Parametern abrufen
-    # Logik für die buy_check-Seite
-    return render_template('buy_check.html', username=username, products=products)
+    print('borrow')
+    if request.method == 'POST':
+        user = request.form['TN_Barcode']
+        item = request.form['Spielzeug']
+        print(item)
+        success = submit_borrow(user, item)
+        if success:
+            print(f"{user} hat {item} ausgeliehen", 'success')
+            return redirect(url_for('borrow_check', username=user, item=item))
+        else:
+            print('Fehler beim Hinzufügen des Aussleihens', 'danger')
+    db = Database()
+    IDs = db.execute_select("SELECT T_ID FROM Teilnehmer")
+    return render_template('borrow.html', IDs=IDs)
 
 @app.route('/watch')
 def watch():
@@ -319,6 +360,29 @@ def watch():
     conn.close()
     df = pd.DataFrame(result, columns=[desc[0] for desc in cursor.description])
     return render_template('watch.html', tables=df.to_html(classes='data', header=True, index=False))
+
+@app.route('/ausgeliehen')
+def ausgeliehen():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = '''
+    SELECT 
+        Spielzeug.Name,
+        Teilnehmer.Name AS Teilnehmer
+    FROM 
+        Spielzeug
+    LEFT JOIN 
+        Spielzeug_Ausleihe ON Spielzeug.Spielzeug_ID = Spielzeug_Ausleihe.Spielzeug_ID AND Spielzeug_Ausleihe.Rückgabedatum IS NULL
+    LEFT JOIN 
+        Teilnehmer ON Spielzeug_Ausleihe.T_ID = Teilnehmer.T_ID
+    '''
+    cursor.execute(query)
+    spielzeuge = cursor.fetchall()
+    conn.close()
+    
+    return render_template('watch.html', spielzeuge=spielzeuge)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -363,10 +427,31 @@ def statistik():
     print('statistik') # Debugging-Information
     return render_template('A_Statistik.html')
 
+@app.route('/items')
+def items():
+    print('statistik') # Debugging-Information
+    return render_template('A_spielzeug.html')
+
 @app.route('/datenbankverwaltung')
 def datenbankverwaltung():
     print('datenbankverwaltung') # Debugging-Information
     return render_template('A_DB.html')
+
+@app.route('/add_buy', methods=['GET', 'POST'])
+def add_buy():
+    print('add_buy')
+    if request.method == 'POST':
+        user = request.form['TN_Barcode']
+        products = [request.form[f'P_Barcode{i}'] for i in range(1, 8) if f'P_Barcode{i}' in request.form]
+        print(products)
+        
+        # Redirect to the confirmation page
+        return redirect(url_for('buy_check', username=user, products=products, quantity=1))
+    
+    conn = get_db_connection()
+    IDs = conn.execute("SELECT T_ID FROM Teilnehmer").fetchall()
+    conn.close()
+    return render_template('add_buy.html', IDs=IDs)
 
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
@@ -431,41 +516,45 @@ def add_fund():
         conn.close()
         return render_template('add_fund.html', users=users)
 
-@app.route('/withdraw_fund', methods=['GET', 'POST'])
-def withdraw_fund():
-    print('withdraw_fund') # Debugging-Information
+@app.route('/add_spielzeug', methods=['GET', 'POST'])
+def add_spielzeug():
     if request.method == 'POST':
-        user = request.form['user']
-        amount = float(request.form['amount'])
+        spielzeug_name = request.form['name']
+        spielzeug_barcode = request.form['barcode']
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT Name FROM Teilnehmer WHERE TN_Barcode = ?", (user,))
-        if not cur.fetchone():
-            print('Benutzer nicht gefunden!', 'danger')
+        cur.execute("SELECT * FROM Spielzeug WHERE S_Barcode = ?", (spielzeug_barcode,))
+        if cur.fetchone():
+            print('Spielzeug existiert bereits!', 'danger')
         else:
-            current_balance = cur.execute("SELECT Kontostand FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
-            current_balance = current_balance['Kontostand'] if current_balance else 0
-            user_balance = cur.execute("SELECT Kontostand FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
-            if user_balance:
-                if amount > user_balance['Kontostand']:
-                    print('Unzureichendes Guthaben!', 'danger')
-                else:
-                    new_balance = user_balance['Kontostand'] - amount
-                    cur.execute("UPDATE Konto SET Kontostand = ? WHERE T_ID = (SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?)", (new_balance, user))
-                    cur.execute("INSERT INTO Transaktion (K_ID, P_ID, Typ, Menge, Datum) VALUES ((SELECT T_ID FROM Teilnehmer WHERE Name = ?), 0, 'Auszahlung', ?, ?)", (user, amount, datetime.now().strftime("%d.%m.%Y %H:%M:%S")))
-                    conn.commit()
-                    print(f'{amount} € erfolgreich abgehoben.', 'success')
-            else:
-                print('Benutzer hat kein Kontoguthaben!', 'danger')
+            cur.execute("INSERT INTO Spielzeug (Name, S_Barcode) VALUES (?, ?)", (spielzeug_name, spielzeug_barcode))
+            conn.commit()
+            print('Spielzeug erfolgreich hinzugefügt.', 'success')
+        conn.close()
+        return redirect(url_for('items'))
+    else:
+        return render_template('add_spielzeug.html')
+
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    print('add_product') # Debugging-Information
+    if request.method == 'POST':
+        product = request.form['product']
+        P_barcode = request.form['P_barcode']
+        price = float(request.form['price'])
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT Beschreibung FROM Produkt WHERE Beschreibung = ?", (product,))
+        if cur.fetchone():
+            print('Produkt existiert bereits!', 'danger')
+        else:
+            cur.execute("INSERT INTO Produkt (Beschreibung, P_Produktbarcode, Preis, Anzahl_verkauft) VALUES (?, ?,?, 0)", (product, P_barcode, price))
+            conn.commit()
+            print('Produkt erfolgreich hinzugefügt.', 'success')
         conn.close()
         return redirect(url_for('admin'))
-    else:
-        conn = get_db_connection()
-        cur = conn.cursor()
-        cur.execute("SELECT Name FROM Teilnehmer")
-        users = [row[0] for row in cur.fetchall()]
-        conn.close()
-        return render_template('withdraw_fund.html', users=users)
+    return render_template('add_product.html')
+
 
 @app.route('/edit_user', methods=['GET', 'POST'])
 def edit_user():
@@ -520,25 +609,40 @@ def edit_user():
         conn.close()
         return render_template('edit_user.html', users=users)
 
-@app.route('/add_product', methods=['GET', 'POST'])
-def add_product():
-    print('add_product') # Debugging-Information
+
+@app.route('/edit_spielzeug', methods=['GET', 'POST'])
+def edit_spielzeug():
     if request.method == 'POST':
-        product = request.form['product']
-        P_barcode = request.form['P_barcode']
-        price = float(request.form['price'])
-        conn = get_db_connection()
-        cur = conn.cursor()
-        cur.execute("SELECT Beschreibung FROM Produkt WHERE Beschreibung = ?", (product,))
-        if cur.fetchone():
-            print('Produkt existiert bereits!', 'danger')
-        else:
-            cur.execute("INSERT INTO Produkt (Beschreibung, P_Produktbarcode, Preis, Anzahl_verkauft) VALUES (?, ?,?, 0)", (product, P_barcode, price))
-            conn.commit()
-            print('Produkt erfolgreich hinzugefügt.', 'success')
-        conn.close()
-        return redirect(url_for('admin'))
-    return render_template('add_product.html')
+        spielzeug_id = request.form.get('spielzeug_id')
+        spielzeug_name = request.form.get('spielzeug_name')
+        spielzeug_barcode = request.form.get('spielzeug_barcode')
+        action = request.form.get('action')
+        
+        if action == 'update':
+            if not spielzeug_id or not spielzeug_name or not spielzeug_barcode:
+                print('Bitte füllen Sie alle Felder aus.', 'danger')
+                return redirect(url_for('edit_spielzeug'))
+            try:
+                conn = get_db_connection()
+                cur = conn.cursor()
+                cur.execute("UPDATE Spielzeug SET Name = ?, S_Barcode = ? WHERE Spielzeug_ID = ?", (spielzeug_name, spielzeug_barcode, spielzeug_id))
+                conn.commit()
+                print('Spielzeug erfolgreich bearbeitet.', 'success')
+            except Exception as e:
+                print(f'Fehler beim Bearbeiten des Spielzeugs: {e}', 'danger')
+        elif action == 'delete':
+            if not spielzeug_id:
+                print('Bitte wählen Sie ein Spielzeug aus.', 'danger')
+                return redirect(url_for('edit_spielzeug'))
+            try:
+                conn = get_db_connection()
+                cur = conn.cursor()
+                cur.execute("DELETE FROM Spielzeug WHERE Spielzeug_ID = ?", (spielzeug_id,))
+                conn.commit()
+                print('Spielzeug erfolgreich gelöscht.', 'success')
+            except Exception as e:
+                print(f'Fehler beim Löschen des Spielzeugs: {e}', 'danger')
+    return render_template('edit_spielzeug.html')
 
 @app.route('/edit_product_prices', methods=['GET', 'POST'])
 def edit_product_prices():
@@ -612,6 +716,70 @@ def edit_product_prices():
     else:
         products = get_products_from_db()
         return render_template('edit_product_prices.html', products=products)
+
+@app.route('/withdraw_fund', methods=['GET', 'POST'])
+def withdraw_fund():
+    print('withdraw_fund') # Debugging-Information
+    if request.method == 'POST':
+        user = request.form['user']
+        amount = float(request.form['amount'])
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT Name FROM Teilnehmer WHERE TN_Barcode = ?", (user,))
+        if not cur.fetchone():
+            print('Benutzer nicht gefunden!', 'danger')
+        else:
+            current_balance = cur.execute("SELECT Kontostand FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
+            current_balance = current_balance['Kontostand'] if current_balance else 0
+            user_balance = cur.execute("SELECT Kontostand FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
+            if user_balance:
+                if amount > user_balance['Kontostand']:
+                    print('Unzureichendes Guthaben!', 'danger')
+                else:
+                    new_balance = user_balance['Kontostand'] - amount
+                    cur.execute("UPDATE Konto SET Kontostand = ? WHERE T_ID = (SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?)", (new_balance, user))
+                    cur.execute("INSERT INTO Transaktion (K_ID, P_ID, Typ, Menge, Datum) VALUES ((SELECT T_ID FROM Teilnehmer WHERE Name = ?), 0, 'Auszahlung', ?, ?)", (user, amount, datetime.now().strftime("%d.%m.%Y %H:%M:%S")))
+                    conn.commit()
+                    print(f'{amount} € erfolgreich abgehoben.', 'success')
+            else:
+                print('Benutzer hat kein Kontoguthaben!', 'danger')
+        conn.close()
+        return redirect(url_for('admin'))
+    else:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT Name FROM Teilnehmer")
+        users = [row[0] for row in cur.fetchall()]
+        conn.close()
+        return render_template('withdraw_fund.html', users=users)
+
+@app.route('/return_spielzeug', methods=['POST', 'GET'])
+def return_spielzeug():
+    print('return_spielzeug') # Debugging-Information
+    if request.method == 'POST':
+        TN_Barcode = request.form['TN_Barcode']
+        Spielzeug = request.form['Spielzeug']
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM Spielzeug WHERE S_Barcode = ?", (Spielzeug,))
+        spielzeug = cur.fetchone()
+        if not spielzeug:
+            print('Spielzeug nicht gefunden!', 'danger')
+        else:
+            cur.execute("SELECT * FROM Spielzeug_Ausleihe WHERE Spielzeug_ID = ? AND Rückgabedatum IS NULL", (spielzeug[0],))
+            ausleihe = cur.fetchone()
+            if not ausleihe:
+                print('Spielzeug ist nicht ausgeliehen.', 'danger')
+            else:
+                cur.execute("UPDATE Spielzeug_Ausleihe SET Rückgabedatum = ? WHERE Spielzeug_Ausleihe_ID = ?", (datetime.now().strftime("%d.%m.%Y"), ausleihe[0]))
+                cur.execute("UPDATE Spielzeug SET Ausgeliehen = 0 WHERE Spielzeug_ID = ?", (spielzeug[0],))
+                conn.commit()
+                print('Spielzeug erfolgreich zurückgegeben.', 'success')
+        conn.close()
+        return redirect(url_for('index'))
+    else:
+        return render_template ("back.html")
+
 
 @app.route('/checkout_tn')
 def checkout_tn():
@@ -815,3 +983,4 @@ def settings():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
