@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Spielzeug bearbeiten</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 
@@ -22,11 +22,20 @@
     </header>
     <main>
         <div class="form-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
             <form action="/edit_spielzeug" method="POST">
                 <label for="selected_spielzeug">Spielzeug auswählen:</label>
                 <select id="selected_spielzeug" name="selected_spielzeug">
                     {% for spielzeug in spielzeuge %}
-                    <option value="{{ spielzeug['Name'] }}">{{ spielzeug['Name'] }}</option>
+                        <option value="{{ spielzeug['Name'] }}">{{ spielzeug['Name'] }}</option>
                     {% endfor %}
                 </select><br><br>
                 <label for="action">Aktion auswählen:</label>

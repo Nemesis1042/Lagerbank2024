@@ -364,6 +364,25 @@ def borrow_check():
         return render_template('borrow_check.html', username=username, item=item)
 
 
+@app.route("/borrow_stats", methods=['GET', 'POST'])
+def borrow_stats():
+    conn = get_db_connection()
+    spielzeuge = conn.execute('''
+        SELECT 
+            Spielzeug.Name, 
+            Spielzeug.S_Barcode, 
+            COUNT(Spielzeug_Ausleihe.Spielzeug_Ausleihe_ID) AS Ausleihen
+        FROM 
+            Spielzeug
+        LEFT JOIN 
+            Spielzeug_Ausleihe ON Spielzeug.Spielzeug_ID = Spielzeug_Ausleihe.Spielzeug_ID
+        GROUP BY 
+            Spielzeug.Spielzeug_ID
+        ORDER BY 
+            Ausleihen DESC
+    ''').fetchall()
+    conn.close()
+    return render_template('borrow_stats.html', spielzeuge=spielzeuge)
 
 @app.route('/watch')
 def watch():
@@ -644,36 +663,53 @@ def edit_user():
 @app.route('/edit_spielzeug', methods=['GET', 'POST'])
 def edit_spielzeug():
     if request.method == 'POST':
-        spielzeug_id = request.form.get('spielzeug_id')
-        spielzeug_name = request.form.get('spielzeug_name')
-        spielzeug_barcode = request.form.get('spielzeug_barcode')
+        selected_spielzeug = request.form.get('selected_spielzeug')
+        new_name = request.form.get('new_name')
+        new_barcode = request.form.get('new_barcode')
         action = request.form.get('action')
-        
+
         if action == 'update':
-            if not spielzeug_id or not spielzeug_name or not spielzeug_barcode:
-                print('Bitte füllen Sie alle Felder aus.', 'danger')
+            if not selected_spielzeug or not new_name or not new_barcode:
+                flash('Bitte füllen Sie alle Felder aus.', 'danger')
                 return redirect(url_for('edit_spielzeug'))
             try:
                 conn = get_db_connection()
                 cur = conn.cursor()
-                cur.execute("UPDATE Spielzeug SET Name = ?, S_Barcode = ? WHERE Spielzeug_ID = ?", (spielzeug_name, spielzeug_barcode, spielzeug_id))
+                cur.execute("UPDATE Spielzeug SET Name = ?, S_Barcode = ? WHERE Name = ?", (new_name, new_barcode, selected_spielzeug))
                 conn.commit()
-                print('Spielzeug erfolgreich bearbeitet.', 'success')
+                print('Spielzeug erfolgreich bearbeitet.')
             except Exception as e:
-                print(f'Fehler beim Bearbeiten des Spielzeugs: {e}', 'danger')
+                flash(f'Fehler beim Bearbeiten des Spielzeugs: {e}', 'danger')
+            finally:
+                conn.close()
+        
         elif action == 'delete':
-            if not spielzeug_id:
-                print('Bitte wählen Sie ein Spielzeug aus.', 'danger')
+            if not selected_spielzeug:
+                flash('Bitte wählen Sie ein Spielzeug aus.', 'danger')
                 return redirect(url_for('edit_spielzeug'))
             try:
                 conn = get_db_connection()
                 cur = conn.cursor()
-                cur.execute("DELETE FROM Spielzeug WHERE Spielzeug_ID = ?", (spielzeug_id,))
+                cur.execute("DELETE FROM Spielzeug WHERE Name = ?", (selected_spielzeug,))
                 conn.commit()
-                print('Spielzeug erfolgreich gelöscht.', 'success')
+                print('Spielzeug erfolgreich gelöscht.')
             except Exception as e:
-                print(f'Fehler beim Löschen des Spielzeugs: {e}', 'danger')
-    return render_template('edit_spielzeug.html')
+                flash(f'Fehler beim Löschen des Spielzeugs: {e}', 'danger')
+            finally:
+                conn.close()
+
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT Name FROM Spielzeug")
+        spielzeuge = cur.fetchall()
+    except Exception as e:
+        flash(f'Fehler beim Abrufen der Spielzeuge: {e}', 'danger')
+        spielzeuge = []
+    finally:
+        conn.close()
+
+    return render_template('edit_spielzeug.html', spielzeuge=spielzeuge)
 
 @app.route('/edit_product_prices', methods=['GET', 'POST'])
 def edit_product_prices():
