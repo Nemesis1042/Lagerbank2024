@@ -22,7 +22,7 @@ from config import Zeltlager    # Für Lager-Konfiguration
 
 # Initialisierung der Flask-App
 app = Flask(__name__)
-os.system('python DB_create.py')
+os.system('python3 DB_create.py')
 app.config.from_object('config.Config')
 
 
