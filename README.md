@@ -51,3 +51,6 @@
    - FwvdDB
 3. **Datenbank löschen**
    - IchWillDieDatenbankLöschen
+  
+## Barcodes erstellen 
+1. https://www.barcode-generator.de/de/einfacher-generator-fur-alle-barcodes
