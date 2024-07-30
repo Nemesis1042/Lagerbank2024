@@ -278,6 +278,37 @@ def index():
     print(titel)
     return render_template('index.html', titel=titel)
 
+@app.route('/db_create')
+def db_create():
+    print('db_create') # Debugging-Information
+    os.system('python DB_create.py')
+    return redirect(url_for('index'))
+
+@app.route('/teilnehmer')
+def teilnehmer():
+    print('teilnehmer') # Debugging-Information
+    return render_template('A_TN.html')
+
+@app.route('/produkte')
+def produkte():
+    print('produkte') # Debugging-Information
+    return render_template('A_Produkte.html')
+
+@app.route('/statistik')
+def statistik():
+    print('statistik') # Debugging-Information
+    return render_template('A_Statistik.html')
+
+@app.route('/items')
+def items():
+    print('statistik') # Debugging-Information
+    return render_template('A_spielzeug.html')
+
+@app.route('/datenbankverwaltung')
+def datenbankverwaltung():
+    print('datenbankverwaltung') # Debugging-Information
+    return render_template('A_DB.html')
+
 @app.route('/admin')
 def admin():
     print('admin') # Debugging-Information
@@ -298,10 +329,10 @@ def buy_check():
         quantity = request.form.get('quantity', 1)
         success = submit_purchase(user, products, quantity)
         if success:
-            print(f"{user} hat {products} erfolgreich gekauft", 'success')
+            flash(f"{user} hat {products} erfolgreich gekauft", 'success')
             return redirect(url_for('success'))
         else:
-            print('Fehler beim Hinzufügen des Kaufs', 'danger')
+            flash('Fehler beim Hinzufügen des Kaufs', 'danger')
             return redirect(url_for('add_buy'))
     else:
         username = request.args.get('username')
@@ -360,7 +391,6 @@ def borrow_check():
         username = request.args.get('username')
         item = request.args.get('item')
         return render_template('borrow_check.html', username=username, item=item)
-
 
 @app.route("/borrow_stats", methods=['GET', 'POST'])
 def borrow_stats():
@@ -456,37 +486,6 @@ def dblogin():
             print('Invalid password, try again.', 'danger')
     return render_template('loginform.html')
 
-@app.route('/db_create')
-def db_create():
-    print('db_create') # Debugging-Information
-    os.system('python DB_create.py')
-    return redirect(url_for('index'))
-
-@app.route('/teilnehmer')
-def teilnehmer():
-    print('teilnehmer') # Debugging-Information
-    return render_template('A_TN.html')
-
-@app.route('/produkte')
-def produkte():
-    print('produkte') # Debugging-Information
-    return render_template('A_Produkte.html')
-
-@app.route('/statistik')
-def statistik():
-    print('statistik') # Debugging-Information
-    return render_template('A_Statistik.html')
-
-@app.route('/items')
-def items():
-    print('statistik') # Debugging-Information
-    return render_template('A_spielzeug.html')
-
-@app.route('/datenbankverwaltung')
-def datenbankverwaltung():
-    print('datenbankverwaltung') # Debugging-Information
-    return render_template('A_DB.html')
-
 @app.route('/add_buy', methods=['GET', 'POST'])
 def add_buy():
     print('add_buy')
@@ -511,14 +510,14 @@ def add_user():
         # Korrektur: Überprüfen, ob 'TN_B' im Formular vorhanden ist
         TN_Barocde = request.form.get('TN_B', None)  # Verwenden von get() um Fehler zu vermeiden
         if TN_Barocde is None:
-            print('Fehler: TN_B Barcode fehlt!', 'danger')
+            flash('Fehler: TN_B Barcode fehlt!', 'danger')
             return redirect(url_for('add_user'))  # Umleitung bei fehlendem Barcode
         amount = float(request.form['amount'])
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute("SELECT Name FROM Teilnehmer WHERE Name = ?", (user,))
         if cur.fetchone():
-            print('Benutzer existiert bereits!', 'danger')
+            flash('Benutzer existiert bereits!', 'danger')
         else:
             cur.execute("INSERT INTO Teilnehmer (Name, TN_Barcode) VALUES (?,?)", (user,TN_Barocde,))
             t_id = cur.execute("SELECT T_ID FROM Teilnehmer WHERE Name = ?", (user,)).fetchone()[0]
@@ -541,9 +540,8 @@ def add_fund():
         cur = conn.cursor()
         cur.execute("SELECT Name FROM Teilnehmer WHERE TN_Barcode = ?", (user,))
         if not cur.fetchone():
-            print('Benutzer nicht gefunden!', 'danger')
+            flash('Benutzer nicht gefunden!', 'danger')
         else:
-            
             user_balance = cur.execute("SELECT Kontostand FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
             user_einzahlung = cur.execute("SELECT Einzahlung FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
             if user_balance:
@@ -555,7 +553,7 @@ def add_fund():
                 conn.commit()
                 print(f'{amount} € erfolgreich hinzugefügt.', 'success')
             else:
-                print('Benutzer hat kein Kontoguthaben!', 'danger')
+                flash('Benutzer hat kein Kontoguthaben!', 'danger')
         conn.close()
         return redirect(url_for('admin'))
     else:
@@ -596,7 +594,7 @@ def add_product():
         cur = conn.cursor()
         cur.execute("SELECT Beschreibung FROM Produkt WHERE Beschreibung = ?", (product,))
         if cur.fetchone():
-            print('Produkt existiert bereits!', 'danger')
+            flash('Produkt existiert bereits!', 'danger')
         else:
             cur.execute("INSERT INTO Produkt (Beschreibung, P_Produktbarcode, Preis, Anzahl_verkauft) VALUES (?, ?,?, 0)", (product, P_barcode, price))
             conn.commit()
@@ -624,7 +622,7 @@ def edit_user():
                 conn.commit()
                 print('Benutzername erfolgreich aktualisiert.', 'success')
             except Exception as e:
-                print(f'Fehler beim Aktualisieren des Benutzernamens: {e}', 'danger')
+                flash(f'Fehler beim Aktualisieren des Benutzernamens: {e}', 'danger')
 
         elif action == 'update_b':
             new_barcode = request.form.get('new_barcode')
@@ -636,7 +634,7 @@ def edit_user():
                 conn.commit()
                 print('Barcode erfolgreich aktualisiert.', 'success')
             except Exception as e:
-                print(f'Fehler beim Aktualisieren des Barcodes: {e}', 'danger')
+                flash(f'Fehler beim Aktualisieren des Barcodes: {e}', 'danger')
 
         elif action == 'delete':
             if not selected_user:
@@ -646,9 +644,9 @@ def edit_user():
                 cur.execute("DELETE FROM Konto WHERE T_ID = (SELECT T_ID FROM Teilnehmer WHERE Name = ?)", (selected_user,))
                 cur.execute("DELETE FROM Teilnehmer WHERE Name = ?", (selected_user,))
                 conn.commit()
-                print('Benutzer erfolgreich gelöscht.', 'success')
+                flash('Benutzer erfolgreich gelöscht.', 'success')
             except Exception as e:
-                print(f'Fehler beim Löschen des Benutzers: {e}', 'danger')
+                flash(f'Fehler beim Löschen des Benutzers: {e}', 'danger')
 
         conn.close()
         return redirect(url_for('edit_user'))
@@ -732,7 +730,7 @@ def edit_product_prices():
             else:
                 new_price = None
             if not selected_product: 
-                print('Bitte wählen Sie ein Produkt aus.', 'danger')
+                flash('Bitte wählen Sie ein Produkt aus.', 'danger')
                 return redirect(url_for('edit_product_prices'))
             try:
                 conn = get_db_connection()
