@@ -261,11 +261,9 @@ def submit_borrow(user, item):
         flash(f"Fehler beim Ausleihen des Spielzeugs: {e}", 'error')  # Fehler als Flash-Nachricht
         return False
 
-
 def barcode_exists(db: Database, barcode: str):
     query = "SELECT 1 FROM P_Barcode WHERE Barcode = ?"
     return bool(db.execute_select(query, (barcode,)))
-
 
 # Routen
 @app.route('/', methods=['GET', 'POST'])
@@ -609,13 +607,13 @@ def add_product():
 
 @app.route('/edit_user', methods=['GET', 'POST'])
 def edit_user():
-    print('edit_user') # Debugging-Information
+    print('edit_user')  # Debugging-Information
     if request.method == 'POST':
         selected_user = request.form.get('selected_user')
-        
         action = request.form.get('action')
         conn = get_db_connection()
         cur = conn.cursor()
+
         if action == 'update':
             new_name = request.form.get('new_name')
             if not selected_user or not new_name:
@@ -627,18 +625,19 @@ def edit_user():
                 print('Benutzername erfolgreich aktualisiert.', 'success')
             except Exception as e:
                 print(f'Fehler beim Aktualisieren des Benutzernamens: {e}', 'danger')
+
         elif action == 'update_b':
             new_barcode = request.form.get('new_barcode')
-            if not selected_user or not new_name:
+            if not selected_user or not new_barcode:
                 print('Bitte füllen Sie alle Felder aus.', 'danger')
                 return redirect(url_for('edit_user'))
             try:
-                cur.execute("UPDATE Teilnehmer SET TN_Barcode = ? WHERE Name = ?", (new_name, selected_user))
+                cur.execute("UPDATE Teilnehmer SET TN_Barcode = ? WHERE Name = ?", (new_barcode, selected_user))
                 conn.commit()
                 print('Barcode erfolgreich aktualisiert.', 'success')
             except Exception as e:
                 print(f'Fehler beim Aktualisieren des Barcodes: {e}', 'danger')
-                
+
         elif action == 'delete':
             if not selected_user:
                 print('Bitte wählen Sie einen Benutzer aus.', 'danger')
@@ -650,6 +649,7 @@ def edit_user():
                 print('Benutzer erfolgreich gelöscht.', 'success')
             except Exception as e:
                 print(f'Fehler beim Löschen des Benutzers: {e}', 'danger')
+
         conn.close()
         return redirect(url_for('edit_user'))
     else:
@@ -659,6 +659,8 @@ def edit_user():
         users = [row[0] for row in cur.fetchall()]
         conn.close()
         return render_template('edit_user.html', users=users)
+
+
 
 @app.route('/edit_spielzeug', methods=['GET', 'POST'])
 def edit_spielzeug():
