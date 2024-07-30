@@ -22,7 +22,7 @@ from config import Zeltlager    # Für Lager-Konfiguration
 
 # Initialisierung der Flask-App
 app = Flask(__name__)
-os.system('python3 DB_create.py')
+os.system('python DB_create.py')
 app.config.from_object('config.Config')
 
 
@@ -659,8 +659,6 @@ def edit_user():
         users = [row[0] for row in cur.fetchall()]
         conn.close()
         return render_template('edit_user.html', users=users)
-
-
 
 @app.route('/edit_spielzeug', methods=['GET', 'POST'])
 def edit_spielzeug():
