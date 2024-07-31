@@ -8,6 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/js/flash.js"></script>
+    <script>
+        // Get flash messages from the server-side template
+        const flashMessages = {{ get_flashed_messages() | tojson }};
+
+        // Call the function from the external JavaScript file
+        displayFlashMessages(flashMessages);
+    </script>
 </head>
 
 <body>
@@ -28,5 +36,6 @@
         <a href="/edit_product_prices" class="admin-link">Produkt bearbeiten</a>
     </div>
 </body>
+
 
 </html>

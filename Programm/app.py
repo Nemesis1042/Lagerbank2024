@@ -57,14 +57,14 @@ def submit_purchase(user, products, quantity=1):
         cursor.execute("SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?", (user,))
         user_row = cursor.fetchone()
         if user_row is None:
-            print("Teilnehmer nicht gefunden!")
+            flash("Teilnehmer nicht gefunden!")
             return False
         T_ID = user_row['T_ID']
         
         cursor.execute("SELECT Kontostand FROM Konto WHERE T_ID = ?", (T_ID,))
         account_row = cursor.fetchone()
         if account_row is None:
-            print("Konto nicht gefunden!")
+            flash("Konto nicht gefunden!")
             return False
         Kontostand = round(account_row['Kontostand'], 2)
         print(f"Ursprünglicher Kontostand: {Kontostand}")  # Debugging-Ausgabe
@@ -75,7 +75,7 @@ def submit_purchase(user, products, quantity=1):
             cursor.execute("SELECT P_ID, Preis FROM Produkt WHERE P_Produktbarcode = ?", (product,))
             product_row = cursor.fetchone()
             if product_row is None:
-                print("Produkt nicht gefunden!")
+                flash("Produkt nicht gefunden!")
                 return False
             P_ID = product_row['P_ID']
             Preis = product_row['Preis']
@@ -83,7 +83,7 @@ def submit_purchase(user, products, quantity=1):
             # Prüfen, ob genug Guthaben vorhanden ist
             total_price = int(quantity) * Preis
             if total_price > Kontostand:
-                print("Nicht genügend Guthaben!")
+                flash("Nicht genügend Guthaben!")
                 return False
             
             new_Kontostand = Kontostand - total_price
@@ -104,7 +104,7 @@ def submit_purchase(user, products, quantity=1):
         
         return True
     except Exception as e:
-        print(f"Fehler beim Hinzufügen der Transaktion: {e}")
+        flash(f"Fehler beim Hinzufügen der Transaktion: {e}")
         return False
     finally:
         cursor.close()
@@ -329,7 +329,7 @@ def buy_check():
         quantity = request.form.get('quantity', 1)
         success = submit_purchase(user, products, quantity)
         if success:
-            flash(f"{user} hat {products} erfolgreich gekauft", 'success')
+            print(f"{user} hat {products} erfolgreich gekauft", 'success')
             return redirect(url_for('success'))
         else:
             flash('Fehler beim Hinzufügen des Kaufs', 'danger')
@@ -792,14 +792,14 @@ def withdraw_fund():
         cur = conn.cursor()
         cur.execute("SELECT Name FROM Teilnehmer WHERE TN_Barcode = ?", (user,))
         if not cur.fetchone():
-            print('Benutzer nicht gefunden!', 'danger')
+            flash('Benutzer nicht gefunden!', 'danger')
         else:
             current_balance = cur.execute("SELECT Kontostand FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
             current_balance = current_balance['Kontostand'] if current_balance else 0
             user_balance = cur.execute("SELECT Kontostand FROM Konto JOIN Teilnehmer ON Konto.T_ID = Teilnehmer.T_ID WHERE Teilnehmer.TN_Barcode = ?", (user,)).fetchone()
             if user_balance:
                 if amount > user_balance['Kontostand']:
-                    print('Unzureichendes Guthaben!', 'danger')
+                    flash('Unzureichendes Guthaben!', 'danger')
                 else:
                     new_balance = user_balance['Kontostand'] - amount
                     cur.execute("UPDATE Konto SET Kontostand = ? WHERE T_ID = (SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?)", (new_balance, user))
@@ -807,9 +807,9 @@ def withdraw_fund():
                     conn.commit()
                     print(f'{amount} € erfolgreich abgehoben.', 'success')
             else:
-                print('Benutzer hat kein Kontoguthaben!', 'danger')
+                flash('Benutzer hat kein Kontoguthaben!', 'danger')
         conn.close()
-        return redirect(url_for('admin'))
+        return redirect(url_for('teilnehmer'))
     else:
         conn = get_db_connection()
         cur = conn.cursor()

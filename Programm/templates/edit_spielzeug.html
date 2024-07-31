@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spielzeug bearbeiten</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/js/flash.js"></script>
 </head>
 
 <body>
@@ -22,15 +23,6 @@
     </header>
     <main>
         <div class="form-container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul>
-                        {% for category, message in messages %}
-                            <li class="{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
             <form action="/edit_spielzeug" method="POST">
                 <label for="selected_spielzeug">Spielzeug auswählen:</label>
                 <select id="selected_spielzeug" name="selected_spielzeug">
@@ -51,6 +43,13 @@
             </form>
         </div>
     </main>
+    <script>
+        // Get flash messages from the server-side template
+        const flashMessages = {{ get_flashed_messages() | tojson }};
+
+        // Call the function from the external JavaScript file
+        displayFlashMessages(flashMessages);
+    </script>
 </body>
 
 </html>
