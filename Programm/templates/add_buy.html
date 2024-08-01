@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,9 +19,10 @@
 
     .productBarcodeLabel {
         display: none;
-        
+
     }
 </style>
+
 <body>
     <header>
         <h1 class="topic">Kauf</h1>
@@ -39,21 +41,29 @@
             <p>Scanne den speziellen Barcode "Admin", um den Kauf abzuschließen.</p>
             <form id="buyForm" action="/add_buy" method="post">
                 <label for="TN_Barcode" class="participantBarcodeLabel">Teilnehmerbarcode:</label>
-                <input id="TN_Barcode" name="TN_Barcode" class="participantBarcodeInput" autofocus autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="TN_Barcode" name="TN_Barcode" class="participantBarcodeInput" autofocus autocomplete="off"
+                    inputmode="none" autocorrect="off" spellcheck="false">
                 <label for="P_Barcode1" class="productBarcodeLabel" style="display:none;">Produktbarcode 1:</label>
-                <input id="P_Barcode1" name="P_Barcode1" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="P_Barcode1" name="P_Barcode1" class="productBarcodeInput" style="display:none;"
+                    autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <label for="P_Barcode2" class="productBarcodeLabel" style="display:none;">Produktbarcode 2:</label>
-                <input id="P_Barcode2" name="P_Barcode2" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="P_Barcode2" name="P_Barcode2" class="productBarcodeInput" style="display:none;"
+                    autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <label for="P_Barcode3" class="productBarcodeLabel" style="display:none;">Produktbarcode 3:</label>
-                <input id="P_Barcode3" name="P_Barcode3" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="P_Barcode3" name="P_Barcode3" class="productBarcodeInput" style="display:none;"
+                    autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <label for="P_Barcode4" class="productBarcodeLabel" style="display:none;">Produktbarcode 4:</label>
-                <input id="P_Barcode4" name="P_Barcode4" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="P_Barcode4" name="P_Barcode4" class="productBarcodeInput" style="display:none;"
+                    autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <label for="P_Barcode5" class="productBarcodeLabel" style="display:none;">Produktbarcode 5:</label>
-                <input id="P_Barcode5" name="P_Barcode5" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="P_Barcode5" name="P_Barcode5" class="productBarcodeInput" style="display:none;"
+                    autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <label for="P_Barcode6" class="productBarcodeLabel" style="display:none;">Produktbarcode 6:</label>
-                <input id="P_Barcode6" name="P_Barcode6" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="P_Barcode6" name="P_Barcode6" class="productBarcodeInput" style="display:none;"
+                    autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <label for="P_Barcode7" class="productBarcodeLabel" style="display:none;">Produktbarcode 7:</label>
-                <input id="P_Barcode7" name="P_Barcode7" class="productBarcodeInput" style="display:none;" autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
+                <input id="P_Barcode7" name="P_Barcode7" class="productBarcodeInput" style="display:none;"
+                    autocomplete="off" inputmode="none" autocorrect="off" spellcheck="false">
                 <input type="submit" value="Kauf hinzufügen">
             </form>
         </div>
@@ -93,7 +103,7 @@
                             document.getElementById(barcodeInputs[currentIndex]).value = ''; // Clear the special barcode
                             // Submit the form if the special barcode is scanned
                             document.getElementById('buyForm').submit();
-                        } 
+                        }
                         else {
                             barcodeInput = ''; // Reset barcode input
                             currentIndex++;
@@ -113,11 +123,15 @@
         });
     </script>
     <script>
-        // Get flash messages from the server-side template
-        const flashMessages = {{ get_flashed_messages() | tojson }};
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get flash messages from the server-side template
+            const flashMessages = {{ get_flashed_messages() | tojson | safe
+        }};
 
         // Call the function from the external JavaScript file
         displayFlashMessages(flashMessages);
+        });
     </script>
 </body>
+
 </html>

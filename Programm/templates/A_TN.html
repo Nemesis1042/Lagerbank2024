@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="/static/styles.css">
     <script src="/static/js/flash.js"></script>
 </head>
+
 <body>
     <header>
         <h1 class="topic">Admin Panel</h1>
@@ -32,11 +34,15 @@
     </div>
 
     <script>
-        // Get flash messages from the server-side template
-        const flashMessages = {{ get_flashed_messages() | tojson }};
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get flash messages from the server-side template
+            const flashMessages = {{ get_flashed_messages() | tojson | safe
+        }};
 
         // Call the function from the external JavaScript file
         displayFlashMessages(flashMessages);
+        });
     </script>
 </body>
+
 </html>

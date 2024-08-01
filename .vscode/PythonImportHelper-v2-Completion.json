@@ -1,0 +1,774 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "shutil",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shutil",
+        "description": "shutil",
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Callable",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "url_for",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "flash",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_db_connection",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "db_backup",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "Zeltlager",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "db_backup",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "im",
+        "importPath": "sympy",
+        "description": "sympy",
+        "isExtraImport": true,
+        "detail": "sympy",
+        "documentation": {}
+    },
+    {
+        "label": "get_users_from_db",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def get_users_from_db():\n    print('get_users_from_db') # Debugging-Information\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT Name FROM Teilnehmer ORDER BY T_ID\")\n    users = cursor.fetchall()\n    conn.close()\n    return [user['Name'] for user in users]\ndef get_products_from_db():\n    print('get_products_from_db') # Debugging-Information",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "get_products_from_db",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def get_products_from_db():\n    print('get_products_from_db') # Debugging-Information\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT Beschreibung FROM Produkt\")\n    products = cursor.fetchall()\n    conn.close()\n    return [product['Beschreibung'] for product in products]\ndef get_db():\n    print('get_db') # Debugging-Information",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "get_db",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def get_db():\n    print('get_db') # Debugging-Information\n    return sqlite3.connect(app.config['SQLALCHEMY_DATABASE_URI'].split('///')[-1])\ndef submit_purchase(user, products, quantity=1):\n    print('submit_purchase')  # Debugging-Information\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    try:\n        cursor.execute(\"SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?\", (user,))\n        user_row = cursor.fetchone()",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "submit_purchase",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def submit_purchase(user, products, quantity=1):\n    print('submit_purchase')  # Debugging-Information\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    try:\n        cursor.execute(\"SELECT T_ID FROM Teilnehmer WHERE TN_Barcode = ?\", (user,))\n        user_row = cursor.fetchone()\n        if user_row is None:\n            print(\"Teilnehmer nicht gefunden!\")\n            return False",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_users",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def fetch_users(db: Database) -> List[str]:\n    print('fetch_users') # Debugging-Information\n    users = [user[0] for user in db.execute_select(\"SELECT Name FROM Teilnehmer ORDER BY T_ID\")]  # Ruft Benutzernamen aus der Datenbank ab\n    return users\ndef fetch_products(db: Database):\n    query = \"SELECT Beschreibung FROM Produkt ORDER BY Preis\"\n    return [row[0] for row in db.execute_select(query)]\ndef fetch_transactions(db: Database, user_id: int) -> List[Tuple]:\n    print('fetch_transactions') # Debugging-Information\n    transactions = db.execute_select(\"SELECT * FROM Transaktion WHERE K_ID = ? ORDER BY Datum DESC\", (user_id,))  # Ruft Transaktionen für einen bestimmten Benutzer ab",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_products",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def fetch_products(db: Database):\n    query = \"SELECT Beschreibung FROM Produkt ORDER BY Preis\"\n    return [row[0] for row in db.execute_select(query)]\ndef fetch_transactions(db: Database, user_id: int) -> List[Tuple]:\n    print('fetch_transactions') # Debugging-Information\n    transactions = db.execute_select(\"SELECT * FROM Transaktion WHERE K_ID = ? ORDER BY Datum DESC\", (user_id,))  # Ruft Transaktionen für einen bestimmten Benutzer ab\n    return transactions\ndef kontostand_in_geld(kontostand):\n    if kontostand:\n        kontostand_value = kontostand",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_transactions",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def fetch_transactions(db: Database, user_id: int) -> List[Tuple]:\n    print('fetch_transactions') # Debugging-Information\n    transactions = db.execute_select(\"SELECT * FROM Transaktion WHERE K_ID = ? ORDER BY Datum DESC\", (user_id,))  # Ruft Transaktionen für einen bestimmten Benutzer ab\n    return transactions\ndef kontostand_in_geld(kontostand):\n    if kontostand:\n        kontostand_value = kontostand\n        zwischenstand = round(kontostand_value, 2)\n    else:\n        kontostand_value = 0",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "kontostand_in_geld",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def kontostand_in_geld(kontostand):\n    if kontostand:\n        kontostand_value = kontostand\n        zwischenstand = round(kontostand_value, 2)\n    else:\n        kontostand_value = 0\n        zwischenstand = 0\n    denominations = [20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]\n    counts = {denom: 0 for denom in denominations}  # Korrektur: Initialisierung des Dictionaries\n    for denom in denominations:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "create_backup",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def create_backup(source_file, backup_directory): \n    source_file = db_backup.source_file\n    backup_directory = db_backup.backup_directory\n    print(\"Erstelle Backup...\") # Debugging-Information\n    try:\n        # Prüfen, ob die Quelldatei existiert\n        if not os.path.isfile(source_file):\n            raise FileNotFoundError(f\"Die Quelldatei {source_file} wurde nicht gefunden.\")\n        # Sicherstellen, dass das Backup-Verzeichnis existiert\n        if not os.path.exists(backup_directory):",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "genug_geld_bis_ende_von_tag",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def genug_geld_bis_ende_von_tag(teilnehmer_id, db):\n    print(\"Berechne erwarteten Kontostand...\")\n    try:\n        lager_name = Zeltlager.lager  # Example for the camp\n        lager = db.execute(\"SELECT Zeltlager FROM Einstellungen WHERE Zeltlager = ?\", (lager_name,)).fetchone()[0]\n        # Convert date formats\n        first_day = db.execute(\"SELECT first_day FROM Einstellungen WHERE Zeltlager = ?\", (lager,)).fetchone()[0]\n        end_datum = db.execute(\"SELECT last_day FROM Einstellungen WHERE Zeltlager = ?\", (lager,)).fetchone()[0]\n        referenz_datum = datetime.now().strftime('%Y-%m-%d %H:%M:%S')\n        # Account balance at the reference date",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "aktualisere_endkontostand",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def aktualisere_endkontostand():\n    print(\"Aktualisiere Endkontostand...\")\n    try:\n        db = get_db_connection()\n        # Get all participants\n        teilnehmer = db.execute(\"SELECT T_ID FROM Teilnehmer\").fetchall()\n        for tn in teilnehmer:\n            tn_id = tn[0]\n            # Update end balance for each participant\n            erwarteter_kontostand = genug_geld_bis_ende_von_tag(tn_id, db)",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "submit_borrow",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def submit_borrow(user, item):\n    print(f\"Benutzer: {user}, Spielzeug: {item}\")  # Debugging-Ausgabe\n    try:\n        db = get_db_connection()\n        # Teilnehmer-ID und Spielzeug-ID aus der Anfrage holen\n        TN_bacode = user\n        spielzeug_name = item\n        # Überprüfen, ob das Spielzeug bereits ausgeliehen wurde\n        ausgeliehen = db.execute(\"SELECT Ausgeliehen FROM Spielzeug WHERE S_Barcode = ?\", (spielzeug_name,)).fetchone()\n        if ausgeliehen and ausgeliehen[0] == 1:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "barcode_exists",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def barcode_exists(db: Database, barcode: str):\n    query = \"SELECT 1 FROM P_Barcode WHERE Barcode = ?\"\n    return bool(db.execute_select(query, (barcode,)))\n# Routen\n@app.route('/', methods=['GET', 'POST'])\ndef index():\n    print('index')\n    with Database() as db:\n        titel = db.execute_select(\"SELECT Zeltlagername FROM Einstellungen\")\n        if titel:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "index",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def index():\n    print('index')\n    with Database() as db:\n        titel = db.execute_select(\"SELECT Zeltlagername FROM Einstellungen\")\n        if titel:\n            titel = titel[0][0]\n        else:\n            titel = \"Kein Titel gefunden\"\n    print(titel)\n    return render_template('index.html', titel=titel)",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def admin():\n    print('admin') # Debugging-Information\n    return render_template('admin.html')\n@app.route('/update_product_dropdowns', methods=['GET'])\ndef update_product_dropdowns_route():\n    print('update_product_dropdowns')\n    db = Database()\n    products = fetch_products(db)  # Ruft Produktbeschreibungen ab\n    return jsonify({'products': products})\n@app.route('/buy_check', methods=['GET', 'POST'])",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "update_product_dropdowns_route",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def update_product_dropdowns_route():\n    print('update_product_dropdowns')\n    db = Database()\n    products = fetch_products(db)  # Ruft Produktbeschreibungen ab\n    return jsonify({'products': products})\n@app.route('/buy_check', methods=['GET', 'POST'])\ndef buy_check():\n    if request.method == 'POST':\n        user = request.form['user']\n        products = request.form.getlist('products')",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "buy_check",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def buy_check():\n    if request.method == 'POST':\n        user = request.form['user']\n        products = request.form.getlist('products')\n        quantity = request.form.get('quantity', 1)\n        success = submit_purchase(user, products, quantity)\n        if success:\n            print(f\"{user} hat {products} erfolgreich gekauft\", 'success')\n            return redirect(url_for('success'))\n        else:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "retry_purchase",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def retry_purchase():\n    print('retry_purchase')\n    if request.method == 'POST':\n        return redirect(url_for('add_buy'))\n@app.route('/success')\ndef success():\n    flash(\"Purchase completed successfully!\")\n    return redirect(url_for(\"add_buy\"))\n@app.route('/success_borrow')\ndef success_borrow():",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "success",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def success():\n    flash(\"Purchase completed successfully!\")\n    return redirect(url_for(\"add_buy\"))\n@app.route('/success_borrow')\ndef success_borrow():\n    flash(\"Borrow completed successfully!\")\n    return redirect(url_for(\"index\"))\n@app.route('/borrow', methods=['GET', 'POST'])\ndef borrow():\n    print('borrow')",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "success_borrow",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def success_borrow():\n    flash(\"Borrow completed successfully!\")\n    return redirect(url_for(\"index\"))\n@app.route('/borrow', methods=['GET', 'POST'])\ndef borrow():\n    print('borrow')\n    if request.method == 'POST':\n        user = request.form['TN_Barcode']\n        spielzeug = request.form['Spielzeug']\n        print(spielzeug)",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "borrow",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def borrow():\n    print('borrow')\n    if request.method == 'POST':\n        user = request.form['TN_Barcode']\n        spielzeug = request.form['Spielzeug']\n        print(spielzeug)\n        # Redirect to the confirmation page\n        return redirect(url_for('borrow_check', username=user, item=spielzeug))  # Ändern Sie 'items' zu 'item'  # Korrektur: 'items' zu 'spielzeug'\n    conn = get_db_connection()\n    IDs = conn.execute(\"SELECT T_ID FROM Teilnehmer\").fetchall()",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "borrow_check",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def borrow_check():\n    if request.method == 'POST':\n        user = request.form.get('user')\n        item = request.form.get('item')\n        if item is None:\n            flash('Fehler: Item fehlt!', 'danger')\n            return redirect(url_for('borrow'))\n        success = submit_borrow(user, item)\n        if success:\n            print(f\"{user} hat {item} erfolgreich ausgeliehen\")",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "borrow_stats",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def borrow_stats():\n    conn = get_db_connection()\n    spielzeuge = conn.execute('''\n        SELECT \n            Spielzeug.Name, \n            Spielzeug.S_Barcode, \n            COUNT(Spielzeug_Ausleihe.Spielzeug_Ausleihe_ID) AS Ausleihen\n        FROM \n            Spielzeug\n        LEFT JOIN ",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "watch",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def watch():\n    print('watch') # Debugging-Information\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    aktualisere_endkontostand()\n    cursor.execute(\"SELECT name FROM sqlite_master WHERE type='table' AND name='Produkt';\")\n    if not cursor.fetchone():\n        conn.close()\n        return \"Die Tabelle 'Produkt' existiert nicht in der Datenbank.\", 404\n    produkt_infos = cursor.execute(\"SELECT P_ID, Beschreibung, ROUND(Preis, 2) as Preis FROM Produkt\").fetchall()",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "ausgeliehen",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def ausgeliehen():\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    query = '''\n    SELECT \n        Spielzeug.Name,\n        Teilnehmer.Name AS Teilnehmer\n    FROM \n        Spielzeug\n    LEFT JOIN ",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def login():\n    print('login') # Debugging-Information\n    if request.method == 'POST':\n        password = request.form['password']\n        if password == '1':\n            return redirect(url_for('admin'))\n        else:\n            print('Invalid password, try again.', 'danger')\n    return render_template('login.html')\n@app.route('/dblogin', methods=['GET', 'POST'])  # Hinzufügen des fehlenden Schrägs@",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "dblogin",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def dblogin():\n    print('dblogin') # Debugging-Information\n    if request.method == 'POST':\n        passworddb = request.form['passworddb']\n        if passworddb == 'FwvdDB':\n            return redirect(url_for('datenbankverwaltung'))\n        else:\n            print('Invalid password, try again.', 'danger')\n    return render_template('loginform.html')\n@app.route('/db_create')",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "db_create",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def db_create():\n    print('db_create') # Debugging-Information\n    os.system('python DB_create.py')\n    return redirect(url_for('index'))\n@app.route('/teilnehmer')\ndef teilnehmer():\n    print('teilnehmer') # Debugging-Information\n    return render_template('A_TN.html')\n@app.route('/produkte')\ndef produkte():",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "teilnehmer",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def teilnehmer():\n    print('teilnehmer') # Debugging-Information\n    return render_template('A_TN.html')\n@app.route('/produkte')\ndef produkte():\n    print('produkte') # Debugging-Information\n    return render_template('A_Produkte.html')\n@app.route('/statistik')\ndef statistik():\n    print('statistik') # Debugging-Information",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "produkte",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def produkte():\n    print('produkte') # Debugging-Information\n    return render_template('A_Produkte.html')\n@app.route('/statistik')\ndef statistik():\n    print('statistik') # Debugging-Information\n    return render_template('A_Statistik.html')\n@app.route('/items')\ndef items():\n    print('statistik') # Debugging-Information",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "statistik",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def statistik():\n    print('statistik') # Debugging-Information\n    return render_template('A_Statistik.html')\n@app.route('/items')\ndef items():\n    print('statistik') # Debugging-Information\n    return render_template('A_spielzeug.html')\n@app.route('/datenbankverwaltung')\ndef datenbankverwaltung():\n    print('datenbankverwaltung') # Debugging-Information",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "items",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def items():\n    print('statistik') # Debugging-Information\n    return render_template('A_spielzeug.html')\n@app.route('/datenbankverwaltung')\ndef datenbankverwaltung():\n    print('datenbankverwaltung') # Debugging-Information\n    return render_template('A_DB.html')\n@app.route('/add_buy', methods=['GET', 'POST'])\ndef add_buy():\n    print('add_buy')",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "datenbankverwaltung",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def datenbankverwaltung():\n    print('datenbankverwaltung') # Debugging-Information\n    return render_template('A_DB.html')\n@app.route('/add_buy', methods=['GET', 'POST'])\ndef add_buy():\n    print('add_buy')\n    if request.method == 'POST':\n        user = request.form['TN_Barcode']\n        products = [request.form[f'P_Barcode{i}'] for i in range(1, 8) if f'P_Barcode{i}' in request.form]\n        print(products)",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "add_buy",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def add_buy():\n    print('add_buy')\n    if request.method == 'POST':\n        user = request.form['TN_Barcode']\n        products = [request.form[f'P_Barcode{i}'] for i in range(1, 8) if f'P_Barcode{i}' in request.form]\n        print(products)\n        # Redirect to the confirmation page\n        return redirect(url_for('buy_check', username=user, products=products, quantity=1))\n    conn = get_db_connection()\n    IDs = conn.execute(\"SELECT T_ID FROM Teilnehmer\").fetchall()",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "add_user",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def add_user():\n    print('add_user') # Debugging-Information\n    if request.method == 'POST':\n        user = request.form['user']\n        # Korrektur: Überprüfen, ob 'TN_B' im Formular vorhanden ist\n        TN_Barocde = request.form.get('TN_B', None)  # Verwenden von get() um Fehler zu vermeiden\n        if TN_Barocde is None:\n            print('Fehler: TN_B Barcode fehlt!', 'danger')\n            return redirect(url_for('add_user'))  # Umleitung bei fehlendem Barcode\n        amount = float(request.form['amount'])",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "add_fund",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def add_fund():\n    print('add_fund') # Debugging-Information\n    if request.method == 'POST':\n        user = request.form['TN_B']\n        amount = float(request.form['amount'])\n        conn = get_db_connection()\n        cur = conn.cursor()\n        cur.execute(\"SELECT Name FROM Teilnehmer WHERE TN_Barcode = ?\", (user,))\n        if not cur.fetchone():\n            print('Benutzer nicht gefunden!', 'danger')",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "add_spielzeug",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def add_spielzeug():\n    if request.method == 'POST':\n        spielzeug_name = request.form['name']\n        spielzeug_barcode = request.form['barcode']\n        conn = get_db_connection()\n        cur = conn.cursor()\n        cur.execute(\"SELECT * FROM Spielzeug WHERE S_Barcode = ?\", (spielzeug_barcode,))\n        if cur.fetchone():\n            print('Spielzeug existiert bereits!', 'danger')\n        else:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "add_product",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def add_product():\n    print('add_product') # Debugging-Information\n    if request.method == 'POST':\n        product = request.form['product']\n        P_barcode = request.form['P_barcode']\n        price = float(request.form['price'])\n        conn = get_db_connection()\n        cur = conn.cursor()\n        cur.execute(\"SELECT Beschreibung FROM Produkt WHERE Beschreibung = ?\", (product,))\n        if cur.fetchone():",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "edit_user",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def edit_user():\n    print('edit_user')  # Debugging-Information\n    if request.method == 'POST':\n        selected_user = request.form.get('selected_user')\n        action = request.form.get('action')\n        conn = get_db_connection()\n        cur = conn.cursor()\n        if action == 'update':\n            new_name = request.form.get('new_name')\n            if not selected_user or not new_name:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "edit_spielzeug",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def edit_spielzeug():\n    if request.method == 'POST':\n        selected_spielzeug = request.form.get('selected_spielzeug')\n        new_name = request.form.get('new_name')\n        new_barcode = request.form.get('new_barcode')\n        action = request.form.get('action')\n        if action == 'update':\n            if not selected_spielzeug or not new_name or not new_barcode:\n                flash('Bitte füllen Sie alle Felder aus.', 'danger')\n                return redirect(url_for('edit_spielzeug'))",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "edit_product_prices",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def edit_product_prices():\n    print('edit_product_prices') # Debugging-Information\n    if request.method == 'POST':\n        selected_product = request.form.get('selected_product')\n        action = request.form.get('action')\n        if action == 'update': # Aktualisieren des Produktpreises\n            new_price_str = request.form.get('new_price')\n            if new_price_str:\n                try:\n                    new_price = float(new_price_str)",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "withdraw_fund",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def withdraw_fund():\n    print('withdraw_fund') # Debugging-Information\n    if request.method == 'POST':\n        user = request.form['user']\n        amount = float(request.form['amount'])\n        conn = get_db_connection()\n        cur = conn.cursor()\n        cur.execute(\"SELECT Name FROM Teilnehmer WHERE TN_Barcode = ?\", (user,))\n        if not cur.fetchone():\n            print('Benutzer nicht gefunden!', 'danger')",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "return_spielzeug",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def return_spielzeug():\n    print('return_spielzeug') # Debugging-Information\n    if request.method == 'POST':\n        TN_Barcode = request.form['TN_Barcode']\n        Spielzeug = request.form['Spielzeug']\n        conn = get_db_connection()\n        cur = conn.cursor()\n        cur.execute(\"SELECT * FROM Spielzeug WHERE S_Barcode = ?\", (Spielzeug,))\n        spielzeug = cur.fetchone()\n        if not spielzeug:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "checkout_tn",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def checkout_tn():\n    print('checkout_tn') # Debugging-Information\n    with Database() as db:\n        users = db.execute_select(\"SELECT Name FROM Teilnehmer ORDER BY Name\")\n    return render_template('TN-Abfrage.html', users=[user[0] for user in users])\n@app.route('/checkout', methods=['POST'])\ndef checkout():\n    print('checkout') # Debugging-Information\n    benutzer_id = request.form['user']\n    if not benutzer_id:",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "checkout",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def checkout():\n    print('checkout') # Debugging-Information\n    benutzer_id = request.form['user']\n    if not benutzer_id:\n        print(\"Bitte wählen Sie einen Teilnehmer aus.\", 'danger')\n        return redirect(url_for('index'))\n    with Database() as db:\n        users = db.execute_select(\"SELECT Name FROM Teilnehmer ORDER BY Name\")\n        if benutzer_id not in [user[0] for user in users]:\n            print(\"Der ausgewählte Teilnehmer existiert nicht.\", 'danger')",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "confirm_checkout",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def confirm_checkout():\n    print('confirm_checkout') # Debugging-Information\n    benutzer_id = request.form['user']\n    with Database() as db:\n        db.execute_update(\"UPDATE Konto SET Kontostand = 0 WHERE T_ID = (SELECT T_ID FROM Teilnehmer WHERE Name = ?)\", (benutzer_id,))\n        db.execute_update(\"UPDATE Teilnehmer SET Checkout = 1 WHERE Name = ?\", (benutzer_id,))\n    print(\"Checkout abgeschlossen.\", 'success')\n    return redirect(url_for('index'))\n@app.route('/kaufstatistik')\ndef create_kaufstatistik_tab():",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "create_kaufstatistik_tab",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def create_kaufstatistik_tab():\n    print('kaufstatistik') # Debugging-Information\n    try:\n        with Database() as db:\n            sql_query = '''\n                        SELECT Produkt.Beschreibung, SUM(Transaktion.Menge) AS Anzahl_verkauft\n                        FROM Produkt\n                        JOIN Transaktion ON Produkt.P_ID = Transaktion.P_ID\n                        GROUP BY Produkt.Beschreibung\n                        ORDER BY Anzahl_verkauft DESC;",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "geld_aufteilen",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def geld_aufteilen():\n    print('geld_aufteilen') # Debugging-Information\n    conn = get_db_connection()\n    kontos = conn.execute(\"SELECT K_ID, Kontostand FROM Konto\").fetchall()\n    conn.close()\n    denominations = [20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]\n    counts = {denom: 0 for denom in denominations}\n    for konto in kontos:\n        kontostand = konto['Kontostand']\n        zwischenstand = kontostand  # Keine Rundung auf 3 Dezimalstellen",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "backup_database",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def backup_database():\n    print('backup_database')  # Debugging-Information\n    # Set default backup directory\n    backup_directory = app.config.get('BACKUP_DIRECTORY', '\"/home/arkatosh/Documents/CVJM/Bula/Lagerbank\"')\n    if request.method == 'POST':\n        # Get new value from the form\n        new_backup_directory = request.form['backup_directory']\n        # Update configuration value\n        app.config['BACKUP_DIRECTORY'] = new_backup_directory\n        source_file = db_backup.source_file",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "delete_database",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def delete_database():\n    print('delete_database') # Debugging-Information\n    if request.method == 'POST':\n        password = request.form['password']\n        if password == 'IchWillDieDatenbankLöschen':\n            try:\n                conn = get_db_connection()\n                with open('database_backup.sql', 'w') as f:\n                    for line in conn.iterdump():\n                        f.write('%s\\n' % line)",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "kind": 2,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "def settings():\n    print('settings') # Debugging-Information  \n    conn = get_db_connection()\n    if request.method == 'POST':\n        try:\n            # Get dates and name from form\n            first_day = request.form['formatted_first_day']\n            last_day = request.form['formatted_last_day']\n            lagername = request.form['lagername']\n            # Validate and convert dates",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "Programm.app",
+        "description": "Programm.app",
+        "peekOfCode": "app = Flask(__name__)\nos.system('python3 DB_create.py')\napp.config.from_object('config.Config')\n# Funktionen\ndef get_users_from_db():\n    print('get_users_from_db') # Debugging-Information\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT Name FROM Teilnehmer ORDER BY T_ID\")\n    users = cursor.fetchall()",
+        "detail": "Programm.app",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "kind": 6,
+        "importPath": "Programm.config",
+        "description": "Programm.config",
+        "peekOfCode": "class Config:\n    SECRET_KEY = os.environ.get('1') or '1'\n    SQLALCHEMY_DATABASE_URI = os.environ.get('/Online_Banking/') or f'sqlite:///{os.path.join(os.getcwd(), \"Lagerbank2024.db\")}'\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\nclass db_backup:\n    lagerbankname = 'Lagerbank2024.db'\n    source_file = 'Lagerbank2024.db'\n    backup_directory = '/home/arkatosh/Documents/CVJM/Bula/Lagerbank'\nclass Zeltlager:\n    lager = 2024 # Zeltlagerjahr",
+        "detail": "Programm.config",
+        "documentation": {}
+    },
+    {
+        "label": "db_backup",
+        "kind": 6,
+        "importPath": "Programm.config",
+        "description": "Programm.config",
+        "peekOfCode": "class db_backup:\n    lagerbankname = 'Lagerbank2024.db'\n    source_file = 'Lagerbank2024.db'\n    backup_directory = '/home/arkatosh/Documents/CVJM/Bula/Lagerbank'\nclass Zeltlager:\n    lager = 2024 # Zeltlagerjahr\nclass Lagerbank:\n    lagerbankname = 'Lagerbank2024.db'\n    source_file = 'Lagerbank2024.db'\n    backup_directory = '/home/arkatosh/Documents/CVJM/Bula/Lagerbank'",
+        "detail": "Programm.config",
+        "documentation": {}
+    },
+    {
+        "label": "Zeltlager",
+        "kind": 6,
+        "importPath": "Programm.config",
+        "description": "Programm.config",
+        "peekOfCode": "class Zeltlager:\n    lager = 2024 # Zeltlagerjahr\nclass Lagerbank:\n    lagerbankname = 'Lagerbank2024.db'\n    source_file = 'Lagerbank2024.db'\n    backup_directory = '/home/arkatosh/Documents/CVJM/Bula/Lagerbank'\n    # source_file = 'Lagerbank2024.db'\n    # backup_directory = '/home/arkatosh/Documents/CVJM/Bula/Lagerbank'",
+        "detail": "Programm.config",
+        "documentation": {}
+    },
+    {
+        "label": "Lagerbank",
+        "kind": 6,
+        "importPath": "Programm.config",
+        "description": "Programm.config",
+        "peekOfCode": "class Lagerbank:\n    lagerbankname = 'Lagerbank2024.db'\n    source_file = 'Lagerbank2024.db'\n    backup_directory = '/home/arkatosh/Documents/CVJM/Bula/Lagerbank'\n    # source_file = 'Lagerbank2024.db'\n    # backup_directory = '/home/arkatosh/Documents/CVJM/Bula/Lagerbank'",
+        "detail": "Programm.config",
+        "documentation": {}
+    },
+    {
+        "label": "get_database",
+        "kind": 2,
+        "importPath": "Programm.config",
+        "description": "Programm.config",
+        "peekOfCode": "def get_database():\n    from database import Database  # Lokaler Import\n    return Database()\nclass Config:\n    SECRET_KEY = os.environ.get('1') or '1'\n    SQLALCHEMY_DATABASE_URI = os.environ.get('/Online_Banking/') or f'sqlite:///{os.path.join(os.getcwd(), \"Lagerbank2024.db\")}'\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\nclass db_backup:\n    lagerbankname = 'Lagerbank2024.db'\n    source_file = 'Lagerbank2024.db'",
+        "detail": "Programm.config",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "kind": 6,
+        "importPath": "Programm.database",
+        "description": "Programm.database",
+        "peekOfCode": "class Database:\n    def __init__(self, db_name=db_name):\n        self.connection = sqlite3.connect(db_name, check_same_thread=False)\n        self.cursor = self.connection.cursor()\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.connection.close()\n    def execute_select(self, query: str, values: tuple = ()) -> List[Tuple]:\n        try:",
+        "detail": "Programm.database",
+        "documentation": {}
+    },
+    {
+        "label": "get_db_connection",
+        "kind": 2,
+        "importPath": "Programm.database",
+        "description": "Programm.database",
+        "peekOfCode": "def get_db_connection():\n    conn = sqlite3.connect(db_name)\n    conn.row_factory = sqlite3.Row\n    return conn",
+        "detail": "Programm.database",
+        "documentation": {}
+    },
+    {
+        "label": "db_name",
+        "kind": 5,
+        "importPath": "Programm.database",
+        "description": "Programm.database",
+        "peekOfCode": "db_name = db_backup.lagerbankname\n# Database class to handle all database operations\nclass Database:\n    def __init__(self, db_name=db_name):\n        self.connection = sqlite3.connect(db_name, check_same_thread=False)\n        self.cursor = self.connection.cursor()\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.connection.close()",
+        "detail": "Programm.database",
+        "documentation": {}
+    },
+    {
+        "label": "create_database",
+        "kind": 2,
+        "importPath": "Programm.DB_create",
+        "description": "Programm.DB_create",
+        "peekOfCode": "def create_database(datenbankname):\n    # Ensure the directory exists\n    directory = os.path.dirname(datenbankname)\n    if not os.path.exists(directory):\n        print(f\"Creating directory: {directory}\")\n        os.makedirs(directory)\n    print(f\"Database path: {datenbankname}\")\n    # Connect to the database (create if it does not exist)\n    try:\n        connection = sqlite3.connect(datenbankname)",
+        "detail": "Programm.DB_create",
+        "documentation": {}
+    },
+    {
+        "label": "datenbankname",
+        "kind": 5,
+        "importPath": "Programm.DB_create",
+        "description": "Programm.DB_create",
+        "peekOfCode": "datenbankname = \"Lagerbank2024.db\"\ndef create_database(datenbankname):\n    # Ensure the directory exists\n    directory = os.path.dirname(datenbankname)\n    if not os.path.exists(directory):\n        print(f\"Creating directory: {directory}\")\n        os.makedirs(directory)\n    print(f\"Database path: {datenbankname}\")\n    # Connect to the database (create if it does not exist)\n    try:",
+        "detail": "Programm.DB_create",
+        "documentation": {}
+    }
+]

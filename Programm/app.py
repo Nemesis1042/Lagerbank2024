@@ -348,12 +348,12 @@ def retry_purchase():
 
 @app.route('/success')
 def success():
-    flash("Purchase completed successfully!")
+    print("Purchase completed successfully!")
     return redirect(url_for("add_buy"))
 
 @app.route('/success_borrow')
 def success_borrow():
-    flash("Borrow completed successfully!")
+    print("Borrow completed successfully!")
     return redirect(url_for("index"))
 
 @app.route('/borrow', methods=['GET', 'POST'])
