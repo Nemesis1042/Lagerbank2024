@@ -290,6 +290,14 @@ def index():
     print(titel)
     return render_template('index.html', titel=titel)
 
+@app.route('/shutdown', methods=['POST'])
+def shutdown():
+    # You might want to add some authentication check here
+    if request.method == 'POST':
+        os.system('sudo shutdown now')  # This will shut down the Pi
+        print("shutdown")
+        return redirect(url_for('index'))
+
 @app.route('/db_create')
 def db_create():
     print('db_create') # Debugging-Information
@@ -977,7 +985,6 @@ def geld_aufteilen():
     sume = sum(denom * count for denom, count in counts.items())
     gesamt_kontostand = sum(konto['Kontostand'] for konto in kontos)
     results = {"counts": counts, "sume": sume, "gesamt_kontostand": gesamt_kontostand}
-   
     print(sume)
     print(gesamt_kontostand)
     print(results)
@@ -1050,7 +1057,7 @@ def settings():
                 
                 # Update database
                 conn.execute("UPDATE Einstellungen SET first_day = ?, last_day = ?, Zeltlagername = ? WHERE Zeltlager = ?", 
-                             (first_day_db_format, last_day_db_format, lagername, Zeltlager.lager))
+                            (first_day_db_format, last_day_db_format, lagername, Zeltlager.lager))
                 conn.commit()
                 
                 print("Erfolg: Einstellungen erfolgreich aktualisiert.")
