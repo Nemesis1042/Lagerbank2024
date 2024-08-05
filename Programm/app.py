@@ -294,6 +294,7 @@ def index():
 def shutdown():
     # You might want to add some authentication check here
     if request.method == 'POST':
+        backup_database()
         os.system('sudo shutdown now')  # This will shut down the Pi
         print("shutdown")
         return redirect(url_for('index'))
